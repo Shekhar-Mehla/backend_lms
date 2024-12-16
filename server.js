@@ -1,8 +1,11 @@
 import express from "express";
 import cors from "cors";
 import databaseConncetion from "./src/config/db.js";
+import UserRouter from "./src/routes/authRoute.js";
+import errorMiddleware from "./src/middleware/errorMiddleware.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
+// 1. database connectivity
 databaseConncetion()
   .then(() => {
     app.listen(PORT, (error) => {
@@ -12,18 +15,19 @@ databaseConncetion()
     });
   })
   .catch((error) => {
-    console.log(error);
+    console.log(error, "it has cought");
   });
 
-//1.  middleware
+//2..  middleware
 
 app.use(cors());
 app.use(express.json());
 
-// 2. database connectivity
+// 3. router end points
 
-app.get("/", (req, res, next) => {
-  res.json("your server is live hehehe");
-});
+app.use("/api/v1/auth", UserRouter);
 
 // error handler will come here
+app.use(({ error, req, res, message }) => {
+  errorMiddleware({ error, req, res, message });
+});

@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const databaseConncetion = async () => {
   try {
-    return mongoose.connect(import.meta.env.VITE_Mongo_URL);
+    return mongoose.connect(process.env.MONGO_URL);
   } catch (error) {
     return error;
   }
