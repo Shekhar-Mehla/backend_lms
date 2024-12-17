@@ -28,6 +28,4 @@ app.use(express.json());
 app.use("/api/v1/auth", UserRouter);
 
 // error handler will come here
-app.use(({ error, req, res, message }) => {
-  errorMiddleware({ error, req, res, message });
-});
+app.use(errorMiddleware);
