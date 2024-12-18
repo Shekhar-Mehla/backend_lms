@@ -25,7 +25,7 @@ export const createNewUser = async (req, res, next) => {
       const session = await SessionCollection(sessionObject);
       // 5.create the link with token and user email
       if(session?._id){
-        const link = `http://localhost:5173/activate?id = ${session._id}&t = ${session.token}`
+        const url = `http://localhost:5173/activate?id = ${session._id}&t = ${session.token}`
 
 
         
