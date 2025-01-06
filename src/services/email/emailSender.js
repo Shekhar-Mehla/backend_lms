@@ -1,13 +1,9 @@
-import nodemailer from "nodemailer";
 import { emailTransporter } from "./emailTransporter.js";
-import React from "react";
+import { urlTemplate, accountActivationTemplate } from "./emailTemplate.js";
 
-export const emailSender = async () => {
-  const info = await transporter.sendMail({
-    from: '"Shekhar" <smehla147@gmail.com>', // sender address
-    to: `${user.email}`, // list of receivers
-    subject: "", // Subject line
-    text: "Hello world?", // plain text body
-    html: "<b>Hello world?</b>", // html body
-  });
+export const emailActivationUrlNotification = async (obj) => {
+  return await emailTransporter().sendMail(urlTemplate(obj));
+};
+export const accountActivatedNotificationEmail = async (obj) => {
+  return await emailTransporter().sendMail(accountActivationTemplate(obj));
 };

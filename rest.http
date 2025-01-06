@@ -4,10 +4,19 @@
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
-{ " FName": "shekhar",
-   "LName": "shekhar",
+{"FName": "Punith",
+   "LName": "Bajaj",
     "phone": "0423745",
-    "email":"a@8",
+    "email":"smehla147@gmail.com",
     "password":"123"}
     
-  
+###
+POST {{baseUrl}}/auth/activate-user
+Content-Type: application/json
+
+{ 
+  "_id":"677b1fc28fbdaa27879d574e",
+  "token":
+"1c9a9895-e3e4-4a93-971f-aee2dc45e707"
+   }
+ 

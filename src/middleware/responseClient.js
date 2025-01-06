@@ -1,8 +1,9 @@
-const responseClient = ({ req, res, statusCode = 200, message }) => {
+const responseClient = ({ req, res, statusCode = 200, message, payload }) => {
   req.success = () => {
     return res.status(statusCode).json({
       status: "success",
       message,
+      payload,
     });
   };
   req.error = () => {

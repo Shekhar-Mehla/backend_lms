@@ -3,7 +3,7 @@ const UserSchema = new mongoose.Schema(
   {
     FName: { type: String, require: true },
     LName: { type: String, require: true },
-    phone: { type: String, require: true },
+    phone: { type: String},
     password: { type: String, require: true },
     email: { type: String, require: true, unique: true, index: 1 },
     role: { type: String, default: "user" },
