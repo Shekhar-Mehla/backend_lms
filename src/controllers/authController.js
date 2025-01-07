@@ -2,8 +2,9 @@ import responseClient from "../middleware/responseClient.js";
 import {
   insertNewUser,
   activateUserAccount,
+  getUserByEmail,
 } from "../models/User/UserModel.js";
-import { hashPassword } from "../utils/bcrypt.js";
+import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
 import {
   createSession,
@@ -34,7 +35,7 @@ export const createNewUser = async (req, res, next) => {
       };
 
       const session = await createSession(sessionObject);
-      // 5.create the link with token and user email
+      // 5.create the link with token and session id
       if (session?._id) {
         const url = `${process.env.ROOT_URL}/activate-user?id=${session._id}&t=${session.token}`;
 
@@ -106,4 +107,25 @@ export const activateUser = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+// login controller
+
+export const loginUserAuthenticater = async (req, res, next) => {
+  try {
+    //  1. recieve the user credentials
+    const { email, password } = req.body;
+    // 2.get the user by email
+    const user = await getUserByEmail(email);
+    if (user?._id) {
+      // 3.get user password from database and compare the password with client password
+      const ispasswordValid = comparePassword(password, user.password);
+      if(ispasswordValid){
+// if ispasswordValid is true the create the refrsh jwt and access jwt and then respond then to the client
+
+const jwts = createJwtsToken()
+      return  res.send(ispasswordValid);
+      }
+      return responseClient({ req, res, message :"invalid credentials",statusCode:401 });
+    }
+  } catch (error) {next(error)}
 };

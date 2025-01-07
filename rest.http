@@ -20,3 +20,14 @@ Content-Type: application/json
 "1c9a9895-e3e4-4a93-971f-aee2dc45e707"
    }
  
+
+###
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{"email":"smehla147@gmail.com","password":"123"}
+    
+
+
+
+ 

@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import databaseConncetion from "./src/config/db.js";
-import UserRouter from "./src/routes/authRoute.js";
+import authRouter from "./src/routes/authRoute.js";
 import errorMiddleware from "./src/middleware/errorMiddleware.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
@@ -25,7 +25,7 @@ app.use(express.json());
 
 // 3. router end points
 
-app.use("/api/v1/auth", UserRouter);
+app.use("/api/v1/auth", authRouter);
 
 // error handler will come here
 app.use(errorMiddleware);
