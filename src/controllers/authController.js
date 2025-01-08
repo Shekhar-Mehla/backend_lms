@@ -15,6 +15,7 @@ import {
   accountActivatedNotificationEmail,
 } from "../services/email/emailSender.js";
 // import { joi } from "joi";
+import { jwts } from "../utils/jwt.js";
 
 export const createNewUser = async (req, res, next) => {
   try {
@@ -119,13 +120,26 @@ export const loginUserAuthenticater = async (req, res, next) => {
     if (user?._id) {
       // 3.get user password from database and compare the password with client password
       const ispasswordValid = comparePassword(password, user.password);
-      if(ispasswordValid){
-// if ispasswordValid is true the create the refrsh jwt and access jwt and then respond then to the client
+      if (ispasswordValid) {
+        // if ispasswordValid is true the create the refrsh jwt and access jwt and then respond then to the client
 
-const jwts = createJwtsToken()
-      return  res.send(ispasswordValid);
+        const jwt = await jwts(user.email);
+
+        return responseClient({
+          req,
+          res,
+          message: "here is the token",
+          payload: jwt,
+        });
       }
-      return responseClient({ req, res, message :"invalid credentials",statusCode:401 });
+      return responseClient({
+        req,
+        res,
+        message: "invalid credentials",
+        statusCode: 401,
+      });
     }
-  } catch (error) {next(error)}
+  } catch (error) {
+    next(error);
+  }
 };
