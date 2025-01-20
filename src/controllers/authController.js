@@ -3,6 +3,7 @@ import {
   insertNewUser,
   activateUserAccount,
   getUserByEmail,
+  updateUser,
 } from "../models/User/UserModel.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
@@ -29,10 +30,11 @@ export const createNewUser = async (req, res, next) => {
     const user = await insertNewUser(req.body);
     if (user?._id) {
       // 4.create the  token suing UUID package and store into the session table
-      console.log(user);
+
       const sessionObject = {
         token: uuidv4(),
         association: user.email,
+        expire: new Date(Date.now() + 10 * 365 * 24 * 60 * 60 * 1000),
       };
 
       const session = await createSession(sessionObject);
@@ -43,7 +45,8 @@ export const createNewUser = async (req, res, next) => {
         const obj = { name: user.FName, email: user.email, url };
         const mail = await emailActivationUrlNotification(obj);
         if (mail.messageId) {
-          const message = "user has added successfully";
+          const message =
+            " Congratulation's your account is created successfully. we have sent you the activation link to your email.please check your email and follow the instruction to activate your account";
           return responseClient({ req, res, message });
         }
       }
@@ -73,12 +76,13 @@ export const createNewUser = async (req, res, next) => {
 
 export const activateUser = async (req, res, next) => {
   try {
-    const { token, _id } = req.body;
+    const { t, _id } = req.body;
 
     const obj = {
       _id,
-      token,
+      token: t,
     };
+
     //7.2 make  database querry and delete the session recored
     const session = await deleteSession(obj);
     // 7.3 if deleted seccussfully we will recieve the deleted object in sesssion and it will have _id
@@ -97,7 +101,7 @@ export const activateUser = async (req, res, next) => {
         const mail = await accountActivatedNotificationEmail(obj);
 
         const message = "your acconut is now active";
-        const payload = mail;
+        const payload = "";
         return responseClient({ req, res, message, payload });
       }
     }
@@ -121,24 +125,43 @@ export const loginUserAuthenticater = async (req, res, next) => {
       // 3.get user password from database and compare the password with client password
       const ispasswordValid = comparePassword(password, user.password);
       if (ispasswordValid) {
-        // if ispasswordValid is true the create the refrsh jwt and access jwt and then respond then to the client
+        // if ispasswordValid is true the create the refrsh jwt and access jwt and store the token into database and also response the client
 
         const jwt = await jwts(user.email);
 
-        return responseClient({
-          req,
-          res,
-          message: "here is the token",
-          payload: jwt,
-        });
+        if (jwt.accessJwt && jwt.refreshJwt) {
+          // update user and add refresh jwt in user and accessjwt in session table
+          const newUser = await updateUser(
+            { email: user.email },
+            { refreshJwt: jwt.refreshJwt }
+          );
+          if (newUser?._id) {
+            const sessionObject = {
+              token: jwt.accessJwt,
+              association: user.email,
+            };
+
+            const session = await createSession(sessionObject);
+            if (session?._id) {
+              console.log(session);
+              return responseClient({
+                req,
+                res,
+                message: "login successfull",
+                payload: jwt,
+              });
+            }
+          }
+        }
       }
       return responseClient({
         req,
         res,
-        message: "invalid credentials",
+        message: "invalid login details",
         statusCode: 401,
       });
     }
+    throw new Error("invalid login details");
   } catch (error) {
     next(error);
   }

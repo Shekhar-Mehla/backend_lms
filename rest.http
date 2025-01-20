@@ -4,8 +4,8 @@
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
-{"FName": "Punith",
-   "LName": "Bajaj",
+{"FName": "SHEKHAR",
+   "LName": "MEHLA",
     "phone": "0423745",
     "email":"smehla147@gmail.com",
     "password":"123"}
@@ -26,6 +26,12 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {"email":"smehla147@gmail.com","password":"123"}
+    
+
+
+###
+GET  {{baseUrl}}/user/profile
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3MzczMzMyOTMsImV4cCI6MTczNzMzNDE5M30.HYttZ7fhwCMuioRkln9o9ru5mUtNYgIGM82Up8GGzf4
     
 
 

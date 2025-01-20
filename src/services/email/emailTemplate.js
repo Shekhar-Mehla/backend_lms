@@ -13,7 +13,7 @@ export const urlTemplate = ({ name, url, email }) => {
 <br/>
 
 <a href = ${url}>
-<button style="background-color:green; color:white; font-size:20px; font-weight:500; padding:4px; border:none;border-radius:5px;">Activate</button>
+<button style="background-color:green; color:white; font-size:20px; font-weight:500; padding:4px; border:none;border-radius:5px;">Activate Now</button>
 </a>
 <br/>
 <br/>
@@ -44,7 +44,7 @@ export const accountActivationTemplate = ({ name, url, email }) => {
 <br/>
 
 <a href = ${url}>
-<button style="background-color:green; color:white; font-size:20px; font-weight:500; padding:4px; border:none;border-radius:5px;">Activate</button>
+<button style="background-color:green; color:white; font-size:20px; font-weight:500; padding:4px; border:none;border-radius:5px;">Login Now</button>
 </a>
 <br/>
 <br/>
