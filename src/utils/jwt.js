@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 // create accessJwt
-const accessJwt = (email) => {
+export const accessJwt = (email) => {
   const token = jwt.sign({ email }, process.env.ACCESS_SECRETKEY, {
     expiresIn: "15m",
   });
@@ -23,8 +23,18 @@ export const jwts = (email) => {
 export const varifyJWT = (token) => {
   try {
     const decoded = jwt.verify(token, process.env.ACCESS_SECRETKEY);
+    console.log(decoded);
     return decoded;
   } catch (error) {
-    console.log(error);
+    return error
+  }
+};
+export const varifyRefreshJwt = (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.REFRESH_SECRETKEY);
+    console.log(decoded);
+    return decoded;
+  } catch (error) {
+    return error
   }
 };

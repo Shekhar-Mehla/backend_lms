@@ -26,12 +26,18 @@ POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {"email":"smehla147@gmail.com","password":"123"}
+
+###
+GET {{baseUrl}}/auth/renew-accessJwt
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc1MDIzNzAsImV4cCI6MTc0MDA5NDM3MH0.dYvI58cOPX_95X6iD4qj2unq4Kx9AgGmikqhkZQ0Cd4
+    
+
     
 
 
 ###
 GET  {{baseUrl}}/user/profile
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3MzczMzMyOTMsImV4cCI6MTczNzMzNDE5M30.HYttZ7fhwCMuioRkln9o9ru5mUtNYgIGM82Up8GGzf4
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc0MDMxMDQsImV4cCI6MTczNzQwNDAwNH0.JuWt0Ir702uGH_GXGeAjcsKQrfwAHXsV6aKdeEvM9Mg
     
 
 

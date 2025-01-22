@@ -4,6 +4,7 @@ import {
   activateUserAccount,
   getUserByEmail,
   updateUser,
+  getUserbyjwtandemail,
 } from "../models/User/UserModel.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
@@ -16,7 +17,7 @@ import {
   accountActivatedNotificationEmail,
 } from "../services/email/emailSender.js";
 // import { joi } from "joi";
-import { jwts } from "../utils/jwt.js";
+import { jwts, varifyRefreshJwt, accessJwt } from "../utils/jwt.js";
 
 export const createNewUser = async (req, res, next) => {
   try {
@@ -135,6 +136,7 @@ export const loginUserAuthenticater = async (req, res, next) => {
             { email: user.email },
             { refreshJwt: jwt.refreshJwt }
           );
+
           if (newUser?._id) {
             const sessionObject = {
               token: jwt.accessJwt,
@@ -143,7 +145,6 @@ export const loginUserAuthenticater = async (req, res, next) => {
 
             const session = await createSession(sessionObject);
             if (session?._id) {
-              console.log(session);
               return responseClient({
                 req,
                 res,
@@ -162,6 +163,57 @@ export const loginUserAuthenticater = async (req, res, next) => {
       });
     }
     throw new Error("invalid login details");
+  } catch (error) {
+    next(error);
+  }
+};
+export const renewAcessJwt = async (req, res, next) => {
+  try {
+    // data flow to renew accessjwt
+    // 1. recieve the token in the req header
+
+    const { authorization } = req.headers;
+    if (authorization) {
+      // 2. get toen from the req.headers
+      const token = authorization.split(" ")[1];
+      // 3. validate the refresh jwt
+      const isJwtValid = varifyRefreshJwt(token);
+
+      if (isJwtValid) {
+        // 4.if token is valid make the database query to make sure token also availble in user table
+        const user = await getUserbyjwtandemail({
+          email: isJwtValid.email,
+          refreshJwt: token,
+        });
+        // if you recive the user then create new accessjwt and store into session table and response to the client
+        if (user?._id) {
+          // crete access jwt
+          const acessJwtTOKEN = accessJwt(user.email);
+          // store token into the databae session table
+          const sessionObject = {
+            token: acessJwtTOKEN,
+            association: user.email,
+          };
+
+          const session = await createSession(sessionObject);
+          if (session?._id) {
+            return responseClient({
+              req,
+              res,
+              message: "here is newacessJwt ",
+              payload: session.token,
+            });
+          }
+        }
+      }
+    }
+
+    responseClient({
+      req,
+      res,
+      message: "no jwt ",
+      statusCode: 401,
+    });
   } catch (error) {
     next(error);
   }

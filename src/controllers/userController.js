@@ -5,11 +5,13 @@ import { getUserByEmail } from "../models/User/UserModel.js";
 export const getUserProfile = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
+    console.log(authorization);
     if (authorization) {
       const token = authorization.split(" ")[1];
       // workflow
+
       // 1. check if token is valid on not
-      const decodedJwt = varifyJWT(token);
+      const decodedJwt = await varifyJWT(token);
 
       if (decodedJwt?.email) {
         // 2. if valid check token is in session table or not
@@ -21,6 +23,9 @@ export const getUserProfile = async (req, res, next) => {
 
           const user = await getUserByEmail(session.association);
           if (user?._id && user.status == "active") {
+            user.password = undefined;
+            user.__v = undefined;
+            user.role = undefined;
             const message = "user profile";
             return responseClient({ req, res, message, payload: user });
           }

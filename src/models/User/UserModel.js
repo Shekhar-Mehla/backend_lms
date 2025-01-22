@@ -12,6 +12,9 @@ export const getUserByEmail = async (email) =>
 
 // update user
 export const updateUser = async (filter, update) => {
-  console.log(filter, update);
   return await UserCollection.findOneAndUpdate(filter, update, { new: true });
+};
+
+export const getUserbyjwtandemail = async (filter) => {
+  return UserCollection.findOne(filter);
 };
