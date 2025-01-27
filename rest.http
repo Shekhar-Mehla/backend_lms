@@ -1,6 +1,6 @@
 @baseUrl = http://localhost:8000/api/v1
 
-###
+### register user
 POST {{baseUrl}}/auth/register
 Content-Type: application/json
 
@@ -10,7 +10,7 @@ Content-Type: application/json
     "email":"smehla147@gmail.com",
     "password":"123"}
     
-###
+### activate user
 POST {{baseUrl}}/auth/activate-user
 Content-Type: application/json
 
@@ -21,23 +21,23 @@ Content-Type: application/json
    }
  
 
-###
+### login user
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {"email":"smehla147@gmail.com","password":"123"}
 
-###
+### renew accesjwt
 GET {{baseUrl}}/auth/renew-accessJwt
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc1MDIzNzAsImV4cCI6MTc0MDA5NDM3MH0.dYvI58cOPX_95X6iD4qj2unq4Kx9AgGmikqhkZQ0Cd4
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc5MzUwMDQsImV4cCI6MTczNzkzNTA2NH0.CPRSH_0Vi0h7OjV7098JOzRcIIfhmeilF-1pd3vPWe0
     
 
     
 
 
-###
+### fetch user profile
 GET  {{baseUrl}}/user/profile
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc0MDMxMDQsImV4cCI6MTczNzQwNDAwNH0.JuWt0Ir702uGH_GXGeAjcsKQrfwAHXsV6aKdeEvM9Mg
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc5NzI0NDcsImV4cCI6MTczNzk3MzA0N30.POcntJYXp_M2tUx4m_Sac9g2Q9xCQQbydxchY9NUIXs
     
 
 

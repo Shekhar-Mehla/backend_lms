@@ -2,11 +2,9 @@ import responseClient from "../middleware/responseClient.js";
 import {
   insertNewUser,
   activateUserAccount,
-  getUserByEmail,
-  updateUser,
   getUserbyjwtandemail,
 } from "../models/User/UserModel.js";
-import { hashPassword, comparePassword } from "../utils/bcrypt.js";
+import { hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
 import {
   createSession,
@@ -17,7 +15,7 @@ import {
   accountActivatedNotificationEmail,
 } from "../services/email/emailSender.js";
 // import { joi } from "joi";
-import { jwts, varifyRefreshJwt, accessJwt } from "../utils/jwt.js";
+import { varifyRefreshJwt, accessJwt } from "../utils/jwt.js";
 
 export const createNewUser = async (req, res, next) => {
   try {
@@ -116,56 +114,13 @@ export const activateUser = async (req, res, next) => {
 };
 // login controller
 
-export const loginUserAuthenticater = async (req, res, next) => {
-  try {
-    //  1. recieve the user credentials
-    const { email, password } = req.body;
-    // 2.get the user by email
-    const user = await getUserByEmail(email);
-    if (user?._id) {
-      // 3.get user password from database and compare the password with client password
-      const ispasswordValid = comparePassword(password, user.password);
-      if (ispasswordValid) {
-        // if ispasswordValid is true the create the refrsh jwt and access jwt and store the token into database and also response the client
-
-        const jwt = await jwts(user.email);
-
-        if (jwt.accessJwt && jwt.refreshJwt) {
-          // update user and add refresh jwt in user and accessjwt in session table
-          const newUser = await updateUser(
-            { email: user.email },
-            { refreshJwt: jwt.refreshJwt }
-          );
-
-          if (newUser?._id) {
-            const sessionObject = {
-              token: jwt.accessJwt,
-              association: user.email,
-            };
-
-            const session = await createSession(sessionObject);
-            if (session?._id) {
-              return responseClient({
-                req,
-                res,
-                message: "login successfull",
-                payload: jwt,
-              });
-            }
-          }
-        }
-      }
-      return responseClient({
-        req,
-        res,
-        message: "invalid login details",
-        statusCode: 401,
-      });
-    }
-    throw new Error("invalid login details");
-  } catch (error) {
-    next(error);
-  }
+export const loginUser = async (req, res, next) => {
+  return responseClient({
+    req,
+    res,
+    message: "login successfull",
+    payload: req.JWT,
+  });
 };
 export const renewAcessJwt = async (req, res, next) => {
   try {
@@ -193,6 +148,7 @@ export const renewAcessJwt = async (req, res, next) => {
           const sessionObject = {
             token: acessJwtTOKEN,
             association: user.email,
+            expire: new Date(Date.now() + 15 * 60 * 1000),
           };
 
           const session = await createSession(sessionObject);
