@@ -6,9 +6,9 @@ Content-Type: application/json
 
 {"FName": "SHEKHAR",
    "LName": "MEHLA",
-    "phone": "0423745",
+    "phone": "01t2",
     "email":"smehla147@gmail.com",
-    "password":"123"}
+    "password":"1233"}
     
 ### activate user
 POST {{baseUrl}}/auth/activate-user
