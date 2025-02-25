@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { FNAME, LNAME, EMAIL, PASSWORD, PHONE } from "./joiconstatnt.js";
-
+import responseClient from "../responseClient.js";
 export const NewUserDataValidation = (req, res, next) => {
   const obj = {
     FName: FNAME,
@@ -8,6 +8,7 @@ export const NewUserDataValidation = (req, res, next) => {
     phone: PHONE,
     email: EMAIL,
     password: PASSWORD,
+    confirmpassword: PASSWORD,
   };
 
   return dataValidation({ req, res, obj, next });
@@ -16,9 +17,14 @@ export const NewUserDataValidation = (req, res, next) => {
 const dataValidation = ({ req, res, obj, next }) => {
   const schema = Joi.object(obj);
   const { error, value } = schema.validate(req.body);
-  console.log(error);
-  res.json({
-    error,
-    value,
-  });
+  if (error) {
+    console.log(error.message);
+    return responseClient({
+      req,
+      res,
+      statusCode: 403,
+      message: error.message,
+    });
+  }
+  next();
 };

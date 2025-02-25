@@ -6,9 +6,10 @@ Content-Type: application/json
 
 {"FName": "SHEKHAR",
    "LName": "MEHLA",
-    "phone": "01t2",
+    "phone": "01666666",
     "email":"smehla147@gmail.com",
-    "password":"1233"}
+    "password":"1233",
+    "hell":"jj"}
     
 ### activate user
 POST {{baseUrl}}/auth/activate-user
@@ -39,6 +40,12 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsY
 GET  {{baseUrl}}/user/profile
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc5NzI0NDcsImV4cCI6MTczNzk3MzA0N30.POcntJYXp_M2tUx4m_Sac9g2Q9xCQQbydxchY9NUIXs
     
+
+###get otp
+POST  {{baseUrl}}/auth/get_otp
+Content-Type: application/json
+
+{"email":"smehla147@gmail.com"}
 
 
 

@@ -55,3 +55,33 @@ export const accountActivationTemplate = ({ name, url, email }) => {
 <p>Library management</p>`, // html body
   };
 };
+export const otpTemplate = ({ name, otp, email }) => {
+  return {
+    from: `"Local Library" <${process.env.EMAIL}>`, // sender address
+    to: `${email}`, // recipient address
+    subject: "Your OTP for Account Verification", // Subject line
+    text: `Hello ${name},`, // plain text body
+    html: `
+      <span>Hello </span>
+      <strong>${name},</strong>
+      <br/>
+      <br/>
+    
+      <div>Your One-Time Password (OTP) for account verification is:</div>
+      <br/>
+      <h3 style="background-color: #f0f0f0; padding: 15px; font-size: 24px; text-align: center; color: #333; border-radius: 8px;">
+        ${otp}
+      </h3>
+      <br/>
+    
+      <p>The OTP is valid for 15 minutes. Please use it to complete your verification process.</p>
+      <br/>
+    
+      <p>If you didn't request this, please ignore this email.</p>
+      <br/>
+    
+      <p>Best regards,</p>
+      <br/>
+      <p>Library Management</p>`,
+  };
+};

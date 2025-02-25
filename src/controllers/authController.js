@@ -3,6 +3,7 @@ import {
   insertNewUser,
   activateUserAccount,
   getUserbyjwtandemail,
+  getUserByEmail,
 } from "../models/User/UserModel.js";
 import { hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
@@ -13,9 +14,11 @@ import {
 import {
   emailActivationUrlNotification,
   accountActivatedNotificationEmail,
+  otpNotificationEmail,
 } from "../services/email/emailSender.js";
 // import { joi } from "joi";
 import { varifyRefreshJwt, accessJwt } from "../utils/jwt.js";
+import { createOtp } from "../utils/createOtp.js";
 
 export const createNewUser = async (req, res, next) => {
   try {
@@ -170,6 +173,48 @@ export const renewAcessJwt = async (req, res, next) => {
       message: "no jwt ",
       statusCode: 401,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// forgot password
+export const getOtp = async (req, res, next) => {
+  // data flow
+
+  // get email from client
+  try {
+    const { email } = req.body;
+    console.log(email);
+
+    // check if email exist in db
+    const user = await getUserByEmail(email);
+    if (user?._id) {
+      // create otp
+      const otp = createOtp();
+      //  save otp in session table
+      const sessionObject = {
+        token: otp,
+        association: user.email,
+        expire: new Date(Date.now() + 15 * 60 * 1000),
+      };
+
+      const session = await createSession(sessionObject);
+      // send email otp to cleint email
+      if (session?._id) {
+        const obj = { name: user.FName, otp, email: session.association };
+        const mail = await otpNotificationEmail(obj);
+        if (mail.accepted) {
+          return responseClient({
+            req,
+            res,
+            message:
+              "We have sent an OTP to your email.Please check your inbox.If you have not received the OTP, kindly check your spam/junk folder.If you still haven’t received it, please request a new OTP",
+          });
+        }
+      }
+    }
+    
   } catch (error) {
     next(error);
   }
