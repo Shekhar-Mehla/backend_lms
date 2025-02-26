@@ -3,6 +3,7 @@ import {
   urlTemplate,
   accountActivationTemplate,
   otpTemplate,
+  passwordChangeTemplate,
 } from "./emailTemplate.js";
 
 export const emailActivationUrlNotification = async (obj) => {
@@ -13,4 +14,7 @@ export const accountActivatedNotificationEmail = async (obj) => {
 };
 export const otpNotificationEmail = async (obj) => {
   return await emailTransporter().sendMail(otpTemplate(obj));
+};
+export const passwordResetNotification = async (obj) => {
+  return await emailTransporter().sendMail(passwordChangeTemplate(obj));
 };

@@ -4,6 +4,7 @@ import {
   activateUserAccount,
   getUserbyjwtandemail,
   getUserByEmail,
+  updateUser,
 } from "../models/User/UserModel.js";
 import { hashPassword } from "../utils/bcrypt.js";
 import { v4 as uuidv4 } from "uuid";
@@ -15,6 +16,7 @@ import {
   emailActivationUrlNotification,
   accountActivatedNotificationEmail,
   otpNotificationEmail,
+  passwordResetNotification,
 } from "../services/email/emailSender.js";
 // import { joi } from "joi";
 import { varifyRefreshJwt, accessJwt } from "../utils/jwt.js";
@@ -214,7 +216,48 @@ export const getOtp = async (req, res, next) => {
         }
       }
     }
-    
+  } catch (error) {
+    next(error);
+  }
+};
+
+// reset password with otp
+
+export const resetPasswordWithOtp = async (req, res, next) => {
+  try {
+    // get data otp,password
+    const { password, otp } = req.body;
+    console.log(password, otp);
+    //check otp is in session table
+    const session = await deleteSession({ token: otp });
+    if (session?._id) {
+      // hash the password
+      const hashedPassword = hashPassword(password);
+      // update password in user collection
+
+      const user = await updateUser(
+        { email: session.association },
+        { password: hashedPassword }
+      );
+      if (user?._id) {
+        // send email to user
+        const mail = await passwordResetNotification({
+          name: user.FName,
+          email: user.email,
+        });
+
+        return responseClient({
+          req,
+          res,
+          message: "your password has changed successfully.",
+        });
+
+        // response client
+      }
+    }
+    responseClient({ req, res, message: "invalid otp", statusCode: 400 });
+
+    // change password
   } catch (error) {
     next(error);
   }
