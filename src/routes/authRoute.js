@@ -18,6 +18,6 @@ authRouter.post("/activate-user", activateUser);
 authRouter.post("/login", loginUserMiddleWare, loginUser);
 authRouter.get("/renew-accessJwt", renewAcessJwt);
 authRouter.post("/get_otp", getOtp);
-authRouter.post("/reset-password", resetPasswordWithOtp);
+authRouter.put("/reset-password", resetPasswordWithOtp);
 
 export default authRouter;

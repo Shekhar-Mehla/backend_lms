@@ -3,5 +3,11 @@ import { varifyJWT } from "../utils/jwt.js";
 import { getsession } from "../models/Session/SessionModel.js";
 import { getUserByEmail } from "../models/User/UserModel.js";
 export const getUserProfile = async (req, res, next) => {
-  return responseClient({req,res,message:"here is the user",payload: req.userInfo})
+  console.log(req.body, "ddjfhh");
+  return responseClient({
+    req,
+    res,
+    message: "here is the user",
+    payload: req.userInfo,
+  });
 };

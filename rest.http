@@ -39,7 +39,10 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsY
 
 ### fetch user profile
 GET  {{baseUrl}}/user/profile
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3Mzc5NzI0NDcsImV4cCI6MTczNzk3MzA0N30.POcntJYXp_M2tUx4m_Sac9g2Q9xCQQbydxchY9NUIXs
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1bmVldGhyYWpiYWphajAwN0BnbWFpbC5jb20iLCJpYXQiOjE3NDEwNDM3MzIsImV4cCI6MTc0MTA0NDMzMn0.527LanSG95MIB1oD9wiqJcHCsmF4-xXMaPpvm1qg9zk
+
+{"hell":"wjjw"}
     
 
 ###get otp

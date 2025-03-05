@@ -216,6 +216,12 @@ export const getOtp = async (req, res, next) => {
         }
       }
     }
+    return responseClient({
+      req,
+      res,
+      message: "invalid email",
+      statusCode: 400,
+    });
   } catch (error) {
     next(error);
   }
