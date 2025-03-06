@@ -1,0 +1,43 @@
+import mongoose from 'mongoose'
+const bookSchema = new Schema({
+  title: {
+    type: String,
+    required: true
+  },
+  author: {
+    type: String,
+    required: true
+  },
+  isbn: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+    unique:true
+  },
+  imageList: {
+    type: [String], // Array of strings to store multiple image URLs
+    required: false
+  },
+  createdBy: {
+    type: mongoose.Schema.Types.ObjectId, // Assuming this references the user's ID
+    ref: 'User', // Assuming you have a User model to reference
+    required: true
+  },
+  updatedBy: {
+    type: mongoose.Schema.Types.ObjectId, // Assuming this references the user's ID
+    ref: 'User', // Assuming you have a User model to reference
+    required: false
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
