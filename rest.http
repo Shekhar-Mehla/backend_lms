@@ -27,7 +27,7 @@ Content-Type: application/json
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
-{"email":"puneethrajbajaj007@gmail.com","password":"12345"}
+{"email":"puneethrajbajaj007@gmail.com","password":"Aa1234%"}
 
 ### renew accesjwt
 GET {{baseUrl}}/auth/renew-accessJwt
@@ -57,6 +57,21 @@ Content-Type: application/json
 
 {"otp":"8475","password":"12345"}
 
+
+### add new book api 
+POST {{baseUrl}}/book/add-new-book
+Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1bmVldGhyYWpiYWphajAwN0BnbWFpbC5jb20iLCJpYXQiOjE3NDEzMTM3NjEsImV4cCI6MTc0MTMxNDM2MX0.GGCTfA572aRpQKJCTy-w9kB8vNo3xK1reCXglZJtoc8
+
+
+
+{"FName": "Puneet",
+   "LName": "Bajaj",
+    "phone": "01666666",
+    "email":"puneethrajbajaj007@gmail.com",
+    "password":"123456",
+    "confirmpassword":"123456"
+    }
 
 
  

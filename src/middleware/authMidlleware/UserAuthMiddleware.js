@@ -2,7 +2,7 @@ import responseClient from "../responseClient.js";
 import { varifyJWT } from "../../utils/jwt.js";
 import { getsession } from "../../models/Session/SessionModel.js";
 import { getUserByEmail } from "../../models/User/UserModel.js";
-export const fetchUserMiddleware = async (req, res, next) => {
+export const UserAuthMiddleware = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     let message = "Unathorized";
@@ -18,7 +18,6 @@ export const fetchUserMiddleware = async (req, res, next) => {
         // 2. if valid check token is in session table or not
 
         const session = await getsession(token);
-      
 
         if (session?._id) {
           // 3.if we get token from session table then fetch user and response to the client
@@ -27,7 +26,7 @@ export const fetchUserMiddleware = async (req, res, next) => {
           if (user?._id && user.status == "active") {
             user.password = undefined;
             user.__v = undefined;
-            user.role = undefined;
+
             req.userInfo = user;
             return next();
           }

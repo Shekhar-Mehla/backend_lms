@@ -3,7 +3,7 @@ import { varifyJWT } from "../utils/jwt.js";
 import { getsession } from "../models/Session/SessionModel.js";
 import { getUserByEmail } from "../models/User/UserModel.js";
 export const getUserProfile = async (req, res, next) => {
-  console.log(req.body, "ddjfhh");
+  req.userInfo.role = undefined;
   return responseClient({
     req,
     res,

@@ -1,5 +1,19 @@
 import Joi from "joi";
-import { FNAME, LNAME, EMAIL, PASSWORD, PHONE } from "./joiconstatnt.js";
+import {
+  FNAME,
+  LNAME,
+  EMAIL,
+  PASSWORD,
+  PHONE,
+  TITTLEReq,
+  AUTHORReq,
+  ISBNREQ,
+  IMAGEURLReq,
+  IMAGELIST,
+  CREATEDBY,
+  UPDATEDBY,
+  STATUS,
+} from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 export const NewUserDataValidation = (req, res, next) => {
   const obj = {
@@ -13,12 +27,26 @@ export const NewUserDataValidation = (req, res, next) => {
 
   return dataValidation({ req, res, obj, next });
 };
+export const NewBookDataValidation = (req, res, next) => {
+  const obj = {
+    title: TITTLEReq,
+    author: AUTHORReq,
+    isbn: ISBNREQ,
+    imageUrl: IMAGEURLReq,
+    imageList: IMAGELIST,
+    createdBy: CREATEDBY,
+    updatedBy: UPDATEDBY,
+    status: STATUS,
+  };
+
+  return dataValidation({ req, res, obj, next });
+};
 
 const dataValidation = ({ req, res, obj, next }) => {
   const schema = Joi.object(obj);
   const { error, value } = schema.validate(req.body);
   if (error) {
-    console.log(error.message);
+    // IF you get error here make sure u delete the image which you just uploaded vin the file
     return responseClient({
       req,
       res,
