@@ -1,4 +1,5 @@
 import Joi from "joi";
+import slugify from "slugify";
 import {
   FNAME,
   LNAME,
@@ -13,6 +14,7 @@ import {
   CREATEDBY,
   UPDATEDBY,
   STATUS,
+  SLUGREQ,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 export const NewUserDataValidation = (req, res, next) => {
@@ -28,21 +30,31 @@ export const NewUserDataValidation = (req, res, next) => {
   return dataValidation({ req, res, obj, next });
 };
 export const NewBookDataValidation = (req, res, next) => {
+  // creat slug and add other property
+  console.log(req.file);
+  console.log(req.body);
+  const slug = "/" + slugify(req.body.title);
+
+  const createdBy = req.userInfo._id;
+  req.body = { ...req.body, slug, createdBy };
+
   const obj = {
     title: TITTLEReq,
     author: AUTHORReq,
     isbn: ISBNREQ,
     imageUrl: IMAGEURLReq,
-    imageList: IMAGELIST,
+    imageList: IMAGELIST.allow(null),
     createdBy: CREATEDBY,
-    updatedBy: UPDATEDBY,
+
     status: STATUS,
+    slug: SLUGREQ,
   };
 
   return dataValidation({ req, res, obj, next });
 };
 
 const dataValidation = ({ req, res, obj, next }) => {
+  console.log(req.body);
   const schema = Joi.object(obj);
   const { error, value } = schema.validate(req.body);
   if (error) {

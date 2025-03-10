@@ -39,6 +39,12 @@ export const UserAuthMiddleware = async (req, res, next) => {
           : "unathorized";
       return responseClient({ req, res, statusCode: 401, message });
     }
+    responseClient({
+      req,
+      res,
+      message: "invalid authrization header",
+      statusCode: 401,
+    });
   } catch (error) {
     next(error);
   }

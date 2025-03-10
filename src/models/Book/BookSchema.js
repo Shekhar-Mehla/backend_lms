@@ -9,6 +9,7 @@ const bookSchema = new Schema(
       type: String,
       default: "inActive",
     },
+    slug: { type: String, required: true, unique: true, index: true },
     author: {
       type: String,
       required: true,
@@ -17,6 +18,7 @@ const bookSchema = new Schema(
       type: String,
       unique: true,
       required: true,
+      index: true,
     },
     imageUrl: {
       type: String,

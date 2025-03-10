@@ -24,6 +24,7 @@ databaseConncetion()
 
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({extended:true}))
 
 // 3. router end points
 
