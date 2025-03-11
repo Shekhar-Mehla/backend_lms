@@ -13,11 +13,7 @@ bookRouter.post(
   "/add-new-book",
   UserAuthMiddleware,
   AdminAuthMidlleware,
-  upload.single("image", (req, res, file, next) => {
-    console.log(req.body);
-    console.log(req.file);
-    console.log("multer");
-  }),
+  upload.array("image",3),
   NewBookDataValidation
 );
 

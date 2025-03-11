@@ -31,7 +31,7 @@ export const NewUserDataValidation = (req, res, next) => {
 };
 export const NewBookDataValidation = (req, res, next) => {
   // creat slug and add other property
-  console.log(req.file);
+  console.log(req.files);
   console.log(req.body);
   const slug = "/" + slugify(req.body.title);
 
