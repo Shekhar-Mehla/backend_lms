@@ -36,7 +36,7 @@ export const UserAuthMiddleware = async (req, res, next) => {
       message =
         decodedJwt.message == "jwt expired"
           ? decodedJwt.message
-          : "unathorized";
+          : "Unathorized";
       return responseClient({ req, res, statusCode: 401, message });
     }
     responseClient({

@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-const bookSchema = new Schema(
+const bookSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -27,11 +27,15 @@ const bookSchema = new Schema(
     },
     imageList: {
       type: [String], // Array of strings to store multiple image URLs
-      required: false,
+      required: true,
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId, // Assuming this references the user's ID
       ref: "User", // Assuming you have a User model to reference
+      required: true,
+    },
+    genre: {
+      type: String,
       required: true,
     },
     updatedBy: {

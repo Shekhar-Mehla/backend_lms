@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 // create accessJwt
 export const accessJwt = (email) => {
   const token = jwt.sign({ email }, process.env.ACCESS_SECRETKEY, {
-    expiresIn: "30m",
+    expiresIn: "1d",
   });
   return token;
 };

@@ -10,13 +10,16 @@ import {
   AUTHORReq,
   ISBNREQ,
   IMAGEURLReq,
-  IMAGELIST,
+  
   CREATEDBY,
-  UPDATEDBY,
+  
   STATUS,
   SLUGREQ,
+  GENREREQ,
+  IMAGELISTREQ,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
+import deleteFile from "../../utils/deleteFile.js";
 export const NewUserDataValidation = (req, res, next) => {
   const obj = {
     FName: FNAME,
@@ -31,20 +34,30 @@ export const NewUserDataValidation = (req, res, next) => {
 };
 export const NewBookDataValidation = (req, res, next) => {
   // creat slug and add other property
-  console.log(req.files);
-  console.log(req.body);
+  let imageList = [];
+
   const slug = "/" + slugify(req.body.title);
 
-  const createdBy = req.userInfo._id;
-  req.body = { ...req.body, slug, createdBy };
+  if (req.files && Array.isArray(req.files)) {
+    imageList = req.files.map((img) => {
+      return img.path;
+    });
+  }
+  const imageUrl = imageList[0];
+
+  const createdBy = req.userInfo?._id;
+  req.body = { ...req.body, imageUrl, slug, createdBy, imageList };
+
+ 
 
   const obj = {
     title: TITTLEReq,
     author: AUTHORReq,
     isbn: ISBNREQ,
     imageUrl: IMAGEURLReq,
-    imageList: IMAGELIST.allow(null),
+    imageList: IMAGELISTREQ,
     createdBy: CREATEDBY,
+    genre: GENREREQ,
 
     status: STATUS,
     slug: SLUGREQ,
@@ -54,11 +67,11 @@ export const NewBookDataValidation = (req, res, next) => {
 };
 
 const dataValidation = ({ req, res, obj, next }) => {
-  console.log(req.body);
   const schema = Joi.object(obj);
   const { error, value } = schema.validate(req.body);
   if (error) {
-    // IF you get error here make sure u delete the image which you just uploaded vin the file
+    // IF you get error here make sure u delete the image which you just uploaded in the file
+    deleteFile(req.files);
     return responseClient({
       req,
       res,
@@ -66,5 +79,5 @@ const dataValidation = ({ req, res, obj, next }) => {
       message: error.message,
     });
   }
-  next();
+  return next();
 };
