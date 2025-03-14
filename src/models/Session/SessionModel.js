@@ -11,3 +11,6 @@ export const deleteSession = async (obj) => {
 export const getsession = async (filter) => {
   return await SessionShema.findOne({ token: filter });
 };
+export const deleteAllSessions = async (obj) => {
+  return await SessionShema.deleteMany(obj);
+};
