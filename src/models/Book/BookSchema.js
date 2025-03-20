@@ -20,23 +20,43 @@ const bookSchema = new mongoose.Schema(
       required: true,
       index: true,
     },
+    publishedDate: {
+      type: Date,
+      required: true,
+    },
+    smallDescription: {
+      type: String,
+      trim: true,
+      required: true,
+    },
+    description: {
+      type: String,
+      trim: true,
+      required: true,
+    },
     imageUrl: {
       type: String,
       required: true,
       unique: true,
     },
     imageList: {
-      type: [String], // Array of strings to store multiple image URLs
+      type: [String], 
       required: true,
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId, // Assuming this references the user's ID
-      ref: "User", // Assuming you have a User model to reference
+      type: mongoose.Schema.Types.ObjectId, 
+      ref: "User", 
       required: true,
     },
     genre: {
       type: String,
       required: true,
+    },
+    stockQuantity: {
+      
+      type: Number,
+      required: true,
+      default: 0, 
     },
     updatedBy: {
       type: mongoose.Schema.Types.ObjectId, // Assuming this references the user's ID

@@ -10,13 +10,15 @@ import {
   AUTHORReq,
   ISBNREQ,
   IMAGEURLReq,
-  
   CREATEDBY,
-  
   STATUS,
   SLUGREQ,
   GENREREQ,
   IMAGELISTREQ,
+  PUBLISH_DATE_REQ,
+  SMALL_DESCRIPTION_REQ,
+  DESCRIPTION_REQ,
+  STOCK_QUANTITY_REQ,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 import deleteFile from "../../utils/deleteFile.js";
@@ -35,6 +37,8 @@ export const NewUserDataValidation = (req, res, next) => {
 export const NewBookDataValidation = (req, res, next) => {
   // creat slug and add other property
   let imageList = [];
+  console.log(req.files, "40");
+  console.log(req.body);
 
   const slug = "/" + slugify(req.body.title);
 
@@ -48,8 +52,6 @@ export const NewBookDataValidation = (req, res, next) => {
   const createdBy = req.userInfo?._id;
   req.body = { ...req.body, imageUrl, slug, createdBy, imageList };
 
- 
-
   const obj = {
     title: TITTLEReq,
     author: AUTHORReq,
@@ -59,8 +61,12 @@ export const NewBookDataValidation = (req, res, next) => {
     createdBy: CREATEDBY,
     genre: GENREREQ,
 
+    publishedDate: PUBLISH_DATE_REQ,
+    smallDescription: SMALL_DESCRIPTION_REQ,
+    description: DESCRIPTION_REQ,
     status: STATUS,
     slug: SLUGREQ,
+    stockQuantity: STOCK_QUANTITY_REQ,
   };
 
   return dataValidation({ req, res, obj, next });

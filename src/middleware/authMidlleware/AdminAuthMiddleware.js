@@ -3,7 +3,6 @@ import responseClient from "../responseClient.js";
 export const AdminAuthMidlleware = (req, res, next) => {
   try {
     if (req.userInfo.role === "admin") {
-      console.log("admin");
       return next();
     }
     responseClient({

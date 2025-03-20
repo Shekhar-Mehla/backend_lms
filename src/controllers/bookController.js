@@ -12,19 +12,15 @@ export const createNewBook = async (req, res, next) => {
         req,
         res,
         message: "Book has added successfully",
-        payload: newBook,
       });
     }
   } catch (error) {
     deleteFile(req.files);
 
-    if (
-      error.message.includes(
-        "E11000 duplicate key error collection: LMS.users index: email_1 dup key"
-      )
-    ) {
-      error.message =
-        "Email address you have provied is already associated with other user.Reset your password or use another email address";
+    if (error.message.includes("E11000 duplicate key error collection")) {
+      error.message = `duplcate is not allowed for ${JSON.stringify(
+        error.keyValue
+      )}`;
       error.statusCode = 400;
     }
     next(error);
