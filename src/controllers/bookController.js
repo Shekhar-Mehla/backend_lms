@@ -1,5 +1,5 @@
 import responseClient from "../middleware/responseClient.js";
-import { addNewBook } from "../models/Book/BookModel.js";
+import { addNewBook, fetchBooks } from "../models/Book/BookModel.js";
 import deleteFile from "../utils/deleteFile.js";
 
 // add new book
@@ -23,6 +23,14 @@ export const createNewBook = async (req, res, next) => {
       )}`;
       error.statusCode = 400;
     }
+    next(error);
+  }
+};
+export const getAllBook = async (req, res, next) => {
+  try {
+    const books = await fetchBooks();
+    responseClient({ req, res, payload: books });
+  } catch (error) {
     next(error);
   }
 };
