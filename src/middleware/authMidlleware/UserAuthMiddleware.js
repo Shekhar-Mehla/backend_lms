@@ -16,16 +16,17 @@ export const UserAuthMiddleware = async (req, res, next) => {
 
       if (decodedJwt?.email) {
         // 2. if valid check token is in session table or not
+        console.log("validation true,19");
 
         const session = await getsession(token);
 
         if (session?._id) {
           // 3.if we get token from session table then fetch user and response to the client
-          console.log(session, "25");
+          console.log("session true 25");
+
           const user = await getUserByEmail(session.association);
-          console.log(user);
+
           if (user?._id && user.status == "active") {
-            console.log("active");
             user.password = undefined;
             user.__v = undefined;
 

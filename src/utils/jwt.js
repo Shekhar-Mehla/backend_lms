@@ -32,7 +32,7 @@ export const varifyJWT = (token) => {
 export const varifyRefreshJwt = (token) => {
   try {
     const decoded = jwt.verify(token, process.env.REFRESH_SECRETKEY);
-    console.log(decoded);
+
     return decoded;
   } catch (error) {
     return error;

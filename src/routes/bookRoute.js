@@ -4,7 +4,7 @@ import { AdminAuthMidlleware } from "../middleware/authMidlleware/AdminAuthMiddl
 import { NewBookDataValidation } from "../middleware/joiValidation/dataValidation.js";
 import { UserAuthMiddleware } from "../middleware/authMidlleware/UserAuthMiddleware.js";
 import { upload } from "../utils/multer.js";
-import { createNewBook ,getAllBook} from "../controllers/bookController.js";
+import { createNewBook, getAllBook } from "../controllers/bookController.js";
 
 const bookRouter = express.Router();
 // apply mutler before accesing the req.body to parse data with mutlter and to be accesble in req.body
@@ -19,11 +19,6 @@ bookRouter.post(
   NewBookDataValidation,
   createNewBook
 );
-bookRouter.get(
-  "/book-list",
-  getAllBook
-);
-
-
+bookRouter.get("/admin/book-list", getAllBook);
 
 export default bookRouter;

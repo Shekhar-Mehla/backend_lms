@@ -40,23 +40,32 @@ const bookSchema = new mongoose.Schema(
       unique: true,
     },
     imageList: {
-      type: [String], 
+      type: [String],
       required: true,
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId, 
-      ref: "User", 
-      required: true,
+      name: { type: String, required: true },
+      adminId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+      },
+    },
+    lastUpdatedBy: {
+      name: { type: String, default: "" },
+      adminId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
     },
     genre: {
       type: String,
       required: true,
     },
     stockQuantity: {
-      
       type: Number,
       required: true,
-      default: 0, 
+      default: 0,
     },
     updatedBy: {
       type: mongoose.Schema.Types.ObjectId, // Assuming this references the user's ID

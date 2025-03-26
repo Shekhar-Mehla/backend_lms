@@ -17,7 +17,7 @@ databaseConncetion()
     });
   })
   .catch((error) => {
-    console.log(error, "it has cought");
+    console.log(error);
   });
 
 //2..  middleware

@@ -37,8 +37,6 @@ export const NewUserDataValidation = (req, res, next) => {
 export const NewBookDataValidation = (req, res, next) => {
   // creat slug and add other property
   let imageList = [];
-  console.log(req.files, "40");
-  console.log(req.body);
 
   const slug = "/" + slugify(req.body.title);
 
@@ -48,8 +46,12 @@ export const NewBookDataValidation = (req, res, next) => {
     });
   }
   const imageUrl = imageList[0];
-
-  const createdBy = req.userInfo?._id;
+  const name = req.userInfo.FName + " " + req.userInfo.LName;
+  console.log(name, "50");
+  const createdBy = {
+    name,
+    adminId: req.userInfo?._id,
+  };
   req.body = { ...req.body, imageUrl, slug, createdBy, imageList };
 
   const obj = {
@@ -64,7 +66,7 @@ export const NewBookDataValidation = (req, res, next) => {
     publishedDate: PUBLISH_DATE_REQ,
     smallDescription: SMALL_DESCRIPTION_REQ,
     description: DESCRIPTION_REQ,
-    status: STATUS,
+    status: STATUS.allow(""),
     slug: SLUGREQ,
     stockQuantity: STOCK_QUANTITY_REQ,
   };

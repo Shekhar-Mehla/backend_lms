@@ -28,8 +28,7 @@ const storage = multer.diskStorage({
         fs.mkdirSync(path.resolve("public/img"), { recursive: true });
       }
       cb(null, "./public/img");
-    } catch (err) {
-      console.error(err);
+    } catch (error) {
       cb(Error(error), false);
     }
   },
