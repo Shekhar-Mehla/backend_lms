@@ -29,8 +29,17 @@ export const createNewBook = async (req, res, next) => {
 export const getAllBook = async (req, res, next) => {
   try {
     const books = await fetchBooks();
+    // const booklist = books.map((book) => {
+    //   //
+    //   const v = book.publishedDate.slice(0, 10);
+    //   console.log(v);
+    // });
+
     responseClient({ req, res, payload: books });
   } catch (error) {
     next(error);
   }
+};
+export const updateBook = async (req, res, next) => {
+  console.log(req.body);
 };

@@ -5,3 +5,9 @@ export const addNewBook = async (obj) => {
 export const fetchBooks = async () => {
   return await bookCollection.find();
 };
+export const deleteBooks = async () => {
+  return await bookCollection.deleteMany({});
+};
+export const insertManyBooks = async (books) => {
+  return await bookCollection.insertMany(books);
+};
