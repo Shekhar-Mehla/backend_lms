@@ -4,6 +4,8 @@ import { getsession } from "../../models/Session/SessionModel.js";
 import { getUserByEmail } from "../../models/User/UserModel.js";
 export const UserAuthMiddleware = async (req, res, next) => {
   try {
+    console.log(req.body, "userauthmiddleware.js");
+
     const { authorization } = req.headers;
     let message = "Unathorized";
     if (authorization) {
@@ -16,13 +18,11 @@ export const UserAuthMiddleware = async (req, res, next) => {
 
       if (decodedJwt?.email) {
         // 2. if valid check token is in session table or not
-        console.log("validation true,19");
 
         const session = await getsession(token);
 
         if (session?._id) {
           // 3.if we get token from session table then fetch user and response to the client
-          console.log("session true 25");
 
           const user = await getUserByEmail(session.association);
 

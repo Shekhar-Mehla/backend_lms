@@ -1,7 +1,10 @@
 import express from "express";
 
 import { AdminAuthMidlleware } from "../middleware/authMidlleware/AdminAuthMiddleware.js";
-import { NewBookDataValidation } from "../middleware/joiValidation/dataValidation.js";
+import {
+  NewBookDataValidation,
+  updateBookValidation,
+} from "../middleware/joiValidation/dataValidation.js";
 import { UserAuthMiddleware } from "../middleware/authMidlleware/UserAuthMiddleware.js";
 import { upload } from "../utils/multer.js";
 import {
@@ -29,7 +32,7 @@ bookRouter.post(
   AdminAuthMidlleware,
   // upload.single("images"),
   upload.array("images", 5),
-  // NewBookDataValidation,
+  updateBookValidation,
   updateBook
 );
 bookRouter.get("/admin/book-list", getAllBook);

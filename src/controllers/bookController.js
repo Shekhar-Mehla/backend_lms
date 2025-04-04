@@ -1,5 +1,9 @@
 import responseClient from "../middleware/responseClient.js";
-import { addNewBook, fetchBooks } from "../models/Book/BookModel.js";
+import {
+  addNewBook,
+  fetchBooks,
+  updateBookData,
+} from "../models/Book/BookModel.js";
 import deleteFile from "../utils/deleteFile.js";
 
 // add new book
@@ -29,11 +33,6 @@ export const createNewBook = async (req, res, next) => {
 export const getAllBook = async (req, res, next) => {
   try {
     const books = await fetchBooks();
-    // const booklist = books.map((book) => {
-    //   //
-    //   const v = book.publishedDate.slice(0, 10);
-    //   console.log(v);
-    // });
 
     responseClient({ req, res, payload: books });
   } catch (error) {
@@ -41,5 +40,34 @@ export const getAllBook = async (req, res, next) => {
   }
 };
 export const updateBook = async (req, res, next) => {
-  console.log(req.body);
+  try {
+    if (req.files.length && Array.isArray(req.files)) {
+      const newImagesList = req.files.map((file) => file.path);
+      req.body.imageList = [...req.body.imageList, ...newImagesList];
+    }
+
+    const { _id, ...rest } = req.body;
+    //update db
+
+    const filter = { _id };
+    const update = { $set: { ...rest } };
+    const book = await updateBookData(filter, update);
+    if (book?._id) {
+      return responseClient({
+        req,
+        res,
+        message: "book has been updated suceessfully",
+      });
+    }
+
+    return responseClient({
+      req,
+      res,
+      statusCode: 400,
+      message: "could not update the book please try again later",
+    });
+  } catch (error) {
+    deleteFile(req.files);
+    next(error);
+  }
 };

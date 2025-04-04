@@ -19,6 +19,7 @@ import {
   SMALL_DESCRIPTION_REQ,
   DESCRIPTION_REQ,
   STOCK_QUANTITY_REQ,
+  ID_REQ,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 import deleteFile from "../../utils/deleteFile.js";
@@ -68,6 +69,30 @@ export const NewBookDataValidation = (req, res, next) => {
     description: DESCRIPTION_REQ,
     status: STATUS.allow(""),
     slug: SLUGREQ,
+    stockQuantity: STOCK_QUANTITY_REQ,
+  };
+
+  return dataValidation({ req, res, obj, next });
+};
+export const updateBookValidation = (req, res, next) => {
+  console.log(req.body, "datavalidation 78");
+  const { imageList } = req.body;
+  req.body.imageList = imageList.split(",");
+
+  const obj = {
+    title: TITTLEReq,
+    author: AUTHORReq,
+
+    imageUrl: IMAGEURLReq,
+    imageList: IMAGELISTREQ,
+
+    genre: GENREREQ,
+
+    publishedDate: PUBLISH_DATE_REQ,
+    smallDescription: SMALL_DESCRIPTION_REQ,
+    description: DESCRIPTION_REQ,
+    status: STATUS.allow(""),
+    _id: ID_REQ,
     stockQuantity: STOCK_QUANTITY_REQ,
   };
 

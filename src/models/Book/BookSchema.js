@@ -39,10 +39,12 @@ const bookSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    imageList: {
-      type: [String],
-      required: true,
-    },
+    imageList: [
+      {
+        type: String,
+        default: [],
+      },
+    ],
     createdBy: {
       name: { type: String, required: true },
       adminId: {

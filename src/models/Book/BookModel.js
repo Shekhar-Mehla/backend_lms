@@ -11,3 +11,6 @@ export const deleteBooks = async () => {
 export const insertManyBooks = async (books) => {
   return await bookCollection.insertMany(books);
 };
+export const updateBookData = async (filter, update) => {
+  return await bookCollection.findOneAndUpdate(filter, update, { new: true });
+};
