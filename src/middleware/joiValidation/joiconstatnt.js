@@ -42,3 +42,4 @@ export const PUBLISH_DATE_REQ = PUBLISH_DATE.required();
 export const STOCK_QUANTITY = Joi.number().min(1);
 export const STOCK_QUANTITY_REQ = STOCK_QUANTITY.required();
 export const ID_REQ = Joi.string().required();
+export const IMAGETODELETE = Joi.array().items(Joi.string());

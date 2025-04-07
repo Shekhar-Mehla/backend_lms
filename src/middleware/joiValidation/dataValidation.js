@@ -20,6 +20,7 @@ import {
   DESCRIPTION_REQ,
   STOCK_QUANTITY_REQ,
   ID_REQ,
+  IMAGETODELETE,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 import deleteFile from "../../utils/deleteFile.js";
@@ -75,9 +76,11 @@ export const NewBookDataValidation = (req, res, next) => {
   return dataValidation({ req, res, obj, next });
 };
 export const updateBookValidation = (req, res, next) => {
-  console.log(req.body, "datavalidation 78");
   const { imageList } = req.body;
   req.body.imageList = imageList.split(",");
+  if (req.body?.imageToDelete) {
+    req.body.imageToDelete = req.body.imageToDelete.split(",");
+  }
 
   const obj = {
     title: TITTLEReq,
@@ -85,6 +88,7 @@ export const updateBookValidation = (req, res, next) => {
 
     imageUrl: IMAGEURLReq,
     imageList: IMAGELISTREQ,
+    imageToDelete: IMAGETODELETE,
 
     genre: GENREREQ,
 
@@ -98,9 +102,17 @@ export const updateBookValidation = (req, res, next) => {
 
   return dataValidation({ req, res, obj, next });
 };
+export const deleteBookDataValidation = (req, res, next) => {
+  const obj = {
+    _id: Joi.string().required(),
+  };
+
+  return dataValidation({ req, res, obj, next });
+};
 
 const dataValidation = ({ req, res, obj, next }) => {
   const schema = Joi.object(obj);
+
   const { error, value } = schema.validate(req.body);
   if (error) {
     // IF you get error here make sure u delete the image which you just uploaded in the file

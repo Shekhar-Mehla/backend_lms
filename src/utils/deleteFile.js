@@ -6,5 +6,7 @@ const deleteFile = (files) => {
     fs.unlinkSync(path.resolve(filepPath));
   });
 };
-
+export const deleteOneFile = (filePath) => {
+  fs.unlinkSync(path.resolve(filePath));
+};
 export default deleteFile;

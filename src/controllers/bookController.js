@@ -1,10 +1,11 @@
 import responseClient from "../middleware/responseClient.js";
 import {
   addNewBook,
+  deleteOneBook,
   fetchBooks,
   updateBookData,
 } from "../models/Book/BookModel.js";
-import deleteFile from "../utils/deleteFile.js";
+import deleteFile, { deleteOneFile } from "../utils/deleteFile.js";
 
 // add new book
 export const createNewBook = async (req, res, next) => {
@@ -45,14 +46,23 @@ export const updateBook = async (req, res, next) => {
       const newImagesList = req.files.map((file) => file.path);
       req.body.imageList = [...req.body.imageList, ...newImagesList];
     }
-
-    const { _id, ...rest } = req.body;
+    console.log(req.body.imageList, "49");
+    if (req.body?.imageToDelete?.length) {
+      req.body.imageList = req.body.imageList.filter(
+        (url) => !req.body?.imageToDelete.includes(url)
+      );
+    }
+    console.log(req.body.imageList, "55");
+    const { _id, imageToDelete, ...rest } = req.body;
     //update db
 
     const filter = { _id };
     const update = { $set: { ...rest } };
     const book = await updateBookData(filter, update);
     if (book?._id) {
+      imageToDelete.map((path) => {
+        deleteOneFile(path);
+      });
       return responseClient({
         req,
         res,
@@ -68,6 +78,32 @@ export const updateBook = async (req, res, next) => {
     });
   } catch (error) {
     deleteFile(req.files);
+    next(error);
+  }
+};
+export const deleteBook = async (req, res, next) => {
+  try {
+    console.log(req.body, "delete controller");
+    const deletedBook = await deleteOneBook(req.body);
+    if (deletedBook?._id) {
+      // delete all files relted to this book from sever
+      deletedBook.imageList.map((path) => {
+        deleteOneFile(path);
+      });
+
+      return responseClient({
+        req,
+        res,
+        message: "book has been deletd successfully",
+      });
+    }
+    return responseClient({
+      req,
+      res,
+      message: "Opration could not be completed",
+      statusCode: 401,
+    });
+  } catch (error) {
     next(error);
   }
 };

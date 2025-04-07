@@ -2,6 +2,7 @@ import express from "express";
 
 import { AdminAuthMidlleware } from "../middleware/authMidlleware/AdminAuthMiddleware.js";
 import {
+  deleteBookDataValidation,
   NewBookDataValidation,
   updateBookValidation,
 } from "../middleware/joiValidation/dataValidation.js";
@@ -9,6 +10,7 @@ import { UserAuthMiddleware } from "../middleware/authMidlleware/UserAuthMiddlew
 import { upload } from "../utils/multer.js";
 import {
   createNewBook,
+  deleteBook,
   getAllBook,
   updateBook,
 } from "../controllers/bookController.js";
@@ -34,6 +36,13 @@ bookRouter.post(
   upload.array("images", 5),
   updateBookValidation,
   updateBook
+);
+bookRouter.delete(
+  "/delete-book",
+  UserAuthMiddleware,
+  AdminAuthMidlleware,
+  deleteBookDataValidation,
+  deleteBook
 );
 bookRouter.get("/admin/book-list", getAllBook);
 
