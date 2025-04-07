@@ -153,7 +153,7 @@ export const renewAcessJwt = async (req, res, next) => {
           const sessionObject = {
             token: acessJwtTOKEN,
             association: user.email,
-            expire: new Date(Date.now() + 15 * 60 * 1000),
+            expire: new Date(Date.now() + 24 * 60 * 60 * 1000),
           };
 
           const session = await createSession(sessionObject);

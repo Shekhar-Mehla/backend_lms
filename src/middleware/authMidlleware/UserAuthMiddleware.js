@@ -4,6 +4,7 @@ import { getsession } from "../../models/Session/SessionModel.js";
 import { getUserByEmail } from "../../models/User/UserModel.js";
 export const UserAuthMiddleware = async (req, res, next) => {
   try {
+    console.log(req.body, "userAuthMiddleware");
     const { authorization } = req.headers;
     let message = "Unathorized";
     if (authorization) {
@@ -23,6 +24,7 @@ export const UserAuthMiddleware = async (req, res, next) => {
           // 3.if we get token from session table then fetch user and response to the client
 
           const user = await getUserByEmail(session.association);
+
           if (user?._id && user.status == "active") {
             user.password = undefined;
             user.__v = undefined;

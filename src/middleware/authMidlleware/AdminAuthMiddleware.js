@@ -3,7 +3,6 @@ import responseClient from "../responseClient.js";
 export const AdminAuthMidlleware = (req, res, next) => {
   try {
     if (req.userInfo.role === "admin") {
-      console.log("admin");
       return next();
     }
     responseClient({
@@ -13,7 +12,6 @@ export const AdminAuthMidlleware = (req, res, next) => {
       statusCode: 401,
     });
   } catch (error) {
-    console.log("admin middles has error");
     next(error);
   }
 };
