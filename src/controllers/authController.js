@@ -19,7 +19,7 @@ import {
   passwordResetNotification,
 } from "../services/email/emailSender.js";
 // import { joi } from "joi";
-import { varifyRefreshJwt, accessJwt } from "../utils/jwt.js";
+import { accessJwt, varifyJWT } from "../utils/jwt.js";
 import { createOtp } from "../utils/createOtp.js";
 
 export const createNewUser = async (req, res, next) => {
@@ -264,6 +264,53 @@ export const resetPasswordWithOtp = async (req, res, next) => {
     responseClient({ req, res, message: "invalid otp", statusCode: 400 });
 
     // change password
+  } catch (error) {
+    next(error);
+  }
+};
+export const logOutUser = async (req, res, next) => {
+  try {
+    const { authorization } = req.headers;
+    if (authorization) {
+      const token = authorization.split(" ")[1];
+      // decode token
+      const decode = varifyJWT(token);
+      if (decode?.email) {
+        const obj = {
+          token,
+          association: decode.email,
+        };
+
+        const session = await deleteSession(obj);
+        if (session?._id) {
+          const email = session.association;
+          // remove jwt from user table
+
+          const user = await updateUser({ email }, { refreshJwt: "" });
+          
+          if (user?._id) {
+            return responseClient({
+              req,
+              res,
+              message: "user has been logout successfully",
+            });
+          }
+          return responseClient({ req, res, message: "no user in db" });
+        }
+        return responseClient({
+          req,
+          res,
+          message: "no token found in our database",
+          statusCode: 401,
+        });
+      }
+      return responseClient({
+        req,
+        res,
+        message: "Invalid token",
+        statusCode: 401,
+      });
+    }
   } catch (error) {
     next(error);
   }

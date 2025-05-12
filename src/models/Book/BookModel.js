@@ -5,8 +5,11 @@ export const addNewBook = async (obj) => {
 export const fetchBooks = async () => {
   return await bookCollection.find();
 };
+export const getAllPublicBook = async () => {
+  return await bookCollection.find({ status: "active" });
+};
 export const deleteBooks = async () => {
-  return await bookCollection.deleteMany(_id);
+  return await bookCollection.deleteMany();
 };
 export const deleteOneBook = async (_id) => {
   console.log(_id);
@@ -17,4 +20,7 @@ export const insertManyBooks = async (books) => {
 };
 export const updateBookData = async (filter, update) => {
   return await bookCollection.findOneAndUpdate(filter, update, { new: true });
+};
+export const getSingleBook = async (filter) => {
+  return await bookCollection.findOne(filter);
 };

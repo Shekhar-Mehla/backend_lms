@@ -3,6 +3,8 @@ import {
   addNewBook,
   deleteOneBook,
   fetchBooks,
+  getAllPublicBook,
+  getSingleBook,
   updateBookData,
 } from "../models/Book/BookModel.js";
 import deleteFile, { deleteOneFile } from "../utils/deleteFile.js";
@@ -31,6 +33,54 @@ export const createNewBook = async (req, res, next) => {
     next(error);
   }
 };
+export const fetchPublicBooks = async (req, res, next) => {
+  try {
+    // fetch all active books
+    const publicBook = await getAllPublicBook();
+    if (publicBook?.length) {
+      return responseClient({
+        req,
+        res,
+        payload: publicBook,
+        message: "here is the book ",
+      });
+    }
+    return responseClient({
+      req,
+      res,
+      payload: [],
+      message: "no active book availble please try again later",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+export const fetchSingleBook = async (req, res, next) => {
+  try {
+    const { slug } = req.params;
+
+    // fetch active singe book books
+    const singlepublicBook = await getSingleBook({ slug, status: "active" });
+
+    if (singlepublicBook?._id) {
+      return responseClient({
+        req,
+        res,
+        payload: singlepublicBook,
+        message: "here is the book ",
+      });
+    }
+
+    return responseClient({
+      req,
+      res,
+
+      message: "Book not found",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
 export const getAllBook = async (req, res, next) => {
   try {
     const books = await fetchBooks();
@@ -42,17 +92,18 @@ export const getAllBook = async (req, res, next) => {
 };
 export const updateBook = async (req, res, next) => {
   try {
+    console.log(req.files, "45 req.files");
     if (req.files.length && Array.isArray(req.files)) {
-      const newImagesList = req.files.map((file) => file.path);
+      const newImagesList = req.files?.map((file) => file.path);
       req.body.imageList = [...req.body.imageList, ...newImagesList];
     }
     console.log(req.body.imageList, "49");
     if (req.body?.imageToDelete?.length) {
-      req.body.imageList = req.body.imageList.filter(
+      req.body.imageList = req.body.imageList?.filter(
         (url) => !req.body?.imageToDelete.includes(url)
       );
     }
-    console.log(req.body.imageList, "55");
+
     const { _id, imageToDelete, ...rest } = req.body;
     //update db
 
@@ -60,7 +111,7 @@ export const updateBook = async (req, res, next) => {
     const update = { $set: { ...rest } };
     const book = await updateBookData(filter, update);
     if (book?._id) {
-      imageToDelete.map((path) => {
+      imageToDelete?.forEach((path) => {
         deleteOneFile(path);
       });
       return responseClient({
@@ -87,7 +138,7 @@ export const deleteBook = async (req, res, next) => {
     const deletedBook = await deleteOneBook(req.body);
     if (deletedBook?._id) {
       // delete all files relted to this book from sever
-      deletedBook.imageList.map((path) => {
+      deletedBook.imageList?.map((path) => {
         deleteOneFile(path);
       });
 

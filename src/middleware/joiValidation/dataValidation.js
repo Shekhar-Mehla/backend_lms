@@ -21,6 +21,7 @@ import {
   STOCK_QUANTITY_REQ,
   ID_REQ,
   IMAGETODELETE,
+  CAROUSEL,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 import deleteFile from "../../utils/deleteFile.js";
@@ -37,6 +38,7 @@ export const NewUserDataValidation = (req, res, next) => {
   return dataValidation({ req, res, obj, next });
 };
 export const NewBookDataValidation = (req, res, next) => {
+  console.log(req.body);
   // creat slug and add other property
   let imageList = [];
 
@@ -49,7 +51,7 @@ export const NewBookDataValidation = (req, res, next) => {
   }
   const imageUrl = imageList[0];
   const name = req.userInfo.FName + " " + req.userInfo.LName;
-  console.log(name, "50");
+
   const createdBy = {
     name,
     adminId: req.userInfo?._id,
@@ -64,6 +66,7 @@ export const NewBookDataValidation = (req, res, next) => {
     imageList: IMAGELISTREQ,
     createdBy: CREATEDBY,
     genre: GENREREQ,
+    Carousel: CAROUSEL,
 
     publishedDate: PUBLISH_DATE_REQ,
     smallDescription: SMALL_DESCRIPTION_REQ,
@@ -91,6 +94,7 @@ export const updateBookValidation = (req, res, next) => {
     imageToDelete: IMAGETODELETE,
 
     genre: GENREREQ,
+    Carousel: CAROUSEL,
 
     publishedDate: PUBLISH_DATE_REQ,
     smallDescription: SMALL_DESCRIPTION_REQ,

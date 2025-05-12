@@ -11,6 +11,8 @@ import { upload } from "../utils/multer.js";
 import {
   createNewBook,
   deleteBook,
+  fetchPublicBooks,
+  fetchSingleBook,
   getAllBook,
   updateBook,
 } from "../controllers/bookController.js";
@@ -19,6 +21,8 @@ const bookRouter = express.Router();
 // apply mutler before accesing the req.body to parse data with mutlter and to be accesble in req.body
 
 // insert new user route
+bookRouter.get("/", fetchPublicBooks);
+bookRouter.get("/:slug", fetchSingleBook);
 bookRouter.post(
   "/add-new-book",
   UserAuthMiddleware,

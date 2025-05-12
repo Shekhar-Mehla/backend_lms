@@ -13,15 +13,14 @@ export const TITTLE = Joi.string().min(3).max(200);
 export const TITTLEReq = TITTLE.required();
 export const AUTHOR = Joi.string().min(3).max(100);
 export const AUTHORReq = AUTHOR.required();
-export const ISBN = Joi.string()
-  .pattern(/^[0-9]+$/) // Ensure the string only contains numbers
-  .length(10); // First condition: length 10
-// .alternatives()
-// .try(
-//   Joi.string()
-//     .pattern(/^[0-9]+$/)
-//     .length(13) // Second condition: length 13
-// );
+export const ISBN = Joi.alternatives().try(
+  Joi.string()
+    .pattern(/^[0-9]+$/) // Ensure the string only contains numbers
+    .length(10),
+  Joi.string()
+    .pattern(/^[0-9]+$/)
+    .length(13) // Second condition: length 13
+);
 
 export const ISBNREQ = ISBN.required();
 export const IMAGEURLReq = Joi.string().min(3).max(200).required();
@@ -30,6 +29,7 @@ export const IMAGELISTREQ = IMAGELIST.required();
 export const CREATEDBY = Joi.object().required();
 export const UPDATEDBY = Joi.string().min(3).max(30).required();
 export const STATUS = Joi.string().valid("active", "inActive");
+export const CAROUSEL = Joi.string().valid("Yes", "No").allow("");
 export const SLUG = Joi.string().min(4).max(200);
 export const SLUGREQ = SLUG.required();
 export const GENREREQ = Joi.string().min(4).max(50).required();

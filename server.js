@@ -5,6 +5,7 @@ import authRouter from "./src/routes/authRoute.js";
 import errorMiddleware from "./src/middleware/errorMiddleware.js";
 import userRouter from "./src/routes/userRoutes.js";
 import bookRouter from "./src/routes/bookRoute.js";
+import borrowRouter from "./src/routes/boorowRoute.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
 // 1. database connectivity
@@ -36,6 +37,9 @@ app.use("/api/v1/user", userRouter);
 
 // book routes
 app.use("/api/v1/book", bookRouter);
+
+// borrow route
+app.use("/api/v1/borrow-book", borrowRouter);
 
 // error handler will come here
 app.use(errorMiddleware);

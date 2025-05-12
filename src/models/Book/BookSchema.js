@@ -9,6 +9,7 @@ const bookSchema = new mongoose.Schema(
       type: String,
       default: "inActive",
     },
+    Carousel: { type: String, default: "No" },
     slug: { type: String, required: true, unique: true, index: true },
     author: {
       type: String,
