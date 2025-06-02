@@ -4,7 +4,6 @@ import { getsession } from "../../models/Session/SessionModel.js";
 import { getUserByEmail } from "../../models/User/UserModel.js";
 export const UserAuthMiddleware = async (req, res, next) => {
   try {
-    console.log(req.body, "userAuthMiddleware");
     const { authorization } = req.headers;
     let message = "Unathorized";
     if (authorization) {

@@ -22,6 +22,11 @@ import {
   ID_REQ,
   IMAGETODELETE,
   CAROUSEL,
+  LARGESTRING,
+  DUEDATE,
+  ID,
+  BORROW_STATUS,
+  IMGAEURL,
 } from "./joiconstatnt.js";
 import responseClient from "../responseClient.js";
 import deleteFile from "../../utils/deleteFile.js";
@@ -113,14 +118,41 @@ export const deleteBookDataValidation = (req, res, next) => {
 
   return dataValidation({ req, res, obj, next });
 };
+export const borrowDataValidation = (req, res, next) => {
+  const obj = {
+    title: LARGESTRING,
+    borrowQuantity: Joi.number().integer().max(1).min(1),
+    bookId: ID, // Validates MongoDB ObjectId for bookId
+    // Validates status with allowed values
+    imageUrl: IMGAEURL, // Optional field for a valid URL
+  };
+
+  return dataValidation({ req, res, obj, next });
+};
 
 const dataValidation = ({ req, res, obj, next }) => {
-  const schema = Joi.object(obj);
+  if (Array.isArray(req.body)) {
+    req.body = req.body.map((book) => {
+      return {
+        ...book,
+        borrowQuantity: 1,
+      };
+    });
+  }
+  let schema;
+
+  Array.isArray(req.body)
+    ? (schema = Joi.array().items(obj))
+    : (schema = Joi.object(obj));
 
   const { error, value } = schema.validate(req.body);
+
   if (error) {
     // IF you get error here make sure u delete the image which you just uploaded in the file
-    deleteFile(req.files);
+    if (req.files) {
+      deleteFile(req.files);
+    }
+
     return responseClient({
       req,
       res,

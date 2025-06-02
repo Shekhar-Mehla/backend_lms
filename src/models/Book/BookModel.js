@@ -24,3 +24,6 @@ export const updateBookData = async (filter, update) => {
 export const getSingleBook = async (filter) => {
   return await bookCollection.findOne(filter);
 };
+export const getBooksbyId = async (filter) => {
+  return await bookCollection.find(filter);
+};

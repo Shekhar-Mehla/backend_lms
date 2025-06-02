@@ -43,3 +43,12 @@ export const STOCK_QUANTITY = Joi.number().min(1);
 export const STOCK_QUANTITY_REQ = STOCK_QUANTITY.required();
 export const ID_REQ = Joi.string().required();
 export const IMAGETODELETE = Joi.array().items(Joi.string());
+export const LARGESTRING = Joi.string().min(3).max(30).required();
+export const ID = Joi.string()
+  .regex(/^[0-9a-fA-F]{24}$/)
+  .required();
+export const BORROW_STATUS = Joi.string()
+  .valid("borrowed", "returned", "overdue")
+  .default("borrowed");
+export const DUEDATE = Joi.date().required();
+export const IMGAEURL = Joi.string().min(3).max(200).required();
