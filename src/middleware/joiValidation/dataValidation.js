@@ -43,7 +43,6 @@ export const NewUserDataValidation = (req, res, next) => {
   return dataValidation({ req, res, obj, next });
 };
 export const NewBookDataValidation = (req, res, next) => {
-  console.log(req.body);
   // creat slug and add other property
   let imageList = [];
 
@@ -121,30 +120,20 @@ export const deleteBookDataValidation = (req, res, next) => {
 export const borrowDataValidation = (req, res, next) => {
   const obj = {
     title: LARGESTRING,
-    borrowQuantity: Joi.number().integer().max(1).min(1),
+
     bookId: ID, // Validates MongoDB ObjectId for bookId
     // Validates status with allowed values
-    imageUrl: IMGAEURL, // Optional field for a valid URL
+    thumbnail: IMGAEURL, // Optional field for a valid URL
   };
 
   return dataValidation({ req, res, obj, next });
 };
 
 const dataValidation = ({ req, res, obj, next }) => {
-  if (Array.isArray(req.body)) {
-    req.body = req.body.map((book) => {
-      return {
-        ...book,
-        borrowQuantity: 1,
-      };
-    });
-  }
-  let schema;
-
-  Array.isArray(req.body)
-    ? (schema = Joi.array().items(obj))
-    : (schema = Joi.object(obj));
-
+  const schema = Array.isArray(req.body)
+    ? Joi.array().items(obj)
+    : Joi.object(obj);
+  
   const { error, value } = schema.validate(req.body);
 
   if (error) {

@@ -13,6 +13,12 @@ import { borrowDataValidation } from "../middleware/joiValidation/dataValidation
 
 const borrowRouter = express.Router();
 // apply mutler before accesing the req.body to parse data with mutlter and to be accesble in req.body
-borrowRouter.post("/add-borrow", UserAuthMiddleware,borrowDataValidation, createNewBorrowController);
+borrowRouter.post(
+  "/add-borrow",
+  borrowDataValidation,
+  UserAuthMiddleware,
+  AdminAuthMidlleware,
+  createNewBorrowController
+);
 
 export default borrowRouter;

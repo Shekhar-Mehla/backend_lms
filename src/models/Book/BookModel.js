@@ -25,5 +25,8 @@ export const getSingleBook = async (filter) => {
   return await bookCollection.findOne(filter);
 };
 export const getBooksbyId = async (filter) => {
-  return await bookCollection.find(filter);
+  return await bookCollection.findById(filter);
+};
+export const updateBulkData = async (bulkoperation) => {
+  return await bookCollection.bulkWrite(bulkoperation);
 };

@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Mongoose } from "mongoose";
 
 const borrowSchema = new mongoose.Schema(
   {
@@ -6,10 +6,15 @@ const borrowSchema = new mongoose.Schema(
       type: String,
       required: true, // The title of the borrowed book
     },
+    quantity: {
+      type: Number,
+
+      required: true,
+    },
     dueDate: {
       type: Date,
       required: true,
-      default: () => new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
+      default: null,
       // The date by which the book must be returned
     },
     returnDate: {
@@ -30,9 +35,15 @@ const borrowSchema = new mongoose.Schema(
       enum: ["borrowed", "returned", "overdue"], // Descriptive statuses
       default: "borrowed", // Default status when a book is borrowed
     },
-    imageUrl: {
+    thumbnail: {
       type: String,
+      required: true,
       required: true, // Optional field for the book's image URL
+    },
+    reviewId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+      default: null,
     },
     isOverdue: {
       type: Boolean,

@@ -4,68 +4,47 @@ import {
   createOneBorrow,
   createManyBorrows,
 } from "../models/BorrowHistory/BorrowHistoryModel.js";
+import checkStockAvailability from "../utils/checkStockAvailability.js";
+import updateBookStock from "../utils/updateBookStock.js";
 
 export const createNewBorrowController = async (req, res, next) => {
   try {
-    if (Array.isArray(req.body)) {
-      req.body = req.body.map((book) => {
-        return { book, userId: req.userInfo };
-      });
-      // if array use insertmany
+    console.log(req.body, ".....");
+
+    const today = new Date();
+    const dueDate = new Date(today); // Create a copy of today's date
+    dueDate.setDate(today.getDate() + 15); // Add 15 days to the dueDate
+    req.body = req.body.map((book) => {
+      return {
+        ...book,
+        dueDate,
+        userId: req.userInfo._id,
+        quantity: 1,
+      };
+    });
+    const stock = await checkStockAvailability(req.body);
+    if (stock) {
       const borrow = await createManyBorrows(req.body);
-      console.log(borrow);
-
-      return;
+      if (borrow.length && Array.isArray(borrow)) {
+        // update stock
+        const updatedBook = await updateBookStock(borrow);
+        if (!updatedBook.modifiedCount >= 1) {
+          return responseClient({
+            req,
+            res,
+            statusCode: 401,
+            message: "could not update the stock",
+          });
+        }
+        return responseClient({
+          req,
+          res,
+          message: "updated stock succefully",
+        });
+      }
     }
-    // fetch book to check if stock is available or not
-    const { bookId } = req.body;
-    
-
-    req.body.userId = req.userInfo;
-
-    const borrow = await createOneBorrow(req.body);
-    console.log(borrow);
-
-    // get single book or array of books
-    // {
-    //     title: {
-    //       type: String,
-    //       required: true, // The title of the borrowed book
-    //     },
-    //     dueDate: {
-    //       type: Date,
-    //       required: true,
-    //       default: () => new Date(Date.now() + 14 * 24 * 60 * 60 * 1000),
-    //       // The date by which the book must be returned
-    //     },
-    //     returnDate: {
-    //       type: Date, // The actual date the book was returned
-    //     },
-    //     userId: {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: "User",
-    //       required: true, // Links the borrow record to a specific user
-    //     },
-    //     bookId: {
-    //       type: mongoose.Schema.Types.ObjectId,
-    //       ref: "Book",
-    //       required: true, // Links the borrow record to a specific book
-    //     },
-    //     status: {
-    //       type: String,
-    //       enum: ["borrowed", "returned", "overdue"], // Descriptive statuses
-    //       default: "borrowed", // Default status when a book is borrowed
-    //     },
-    //     imageUrl: {
-    //       type: String,
-    //       required: true, // Optional field for the book's image URL
-    //     },
-    //     isOverdue: {
-    //       type: Boolean,
-    //       default: false,
-    //     },
+    //
   } catch (error) {
-    console.log("error in borrow controller", error);
     next(error);
   }
 };
