@@ -14,7 +14,7 @@ databaseConncetion()
     app.listen(PORT, (error) => {
       error
         ? console.log(error)
-        : console.log(`your app is live at  http://localhost:${PORT}`);
+        : console.log(`your app is live at  https://localhost:${PORT}`);
     });
   })
   .catch((error) => {
