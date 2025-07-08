@@ -6,8 +6,11 @@ import errorMiddleware from "./src/middleware/errorMiddleware.js";
 import userRouter from "./src/routes/userRoutes.js";
 import bookRouter from "./src/routes/bookRoute.js";
 import borrowRouter from "./src/routes/boorowRoute.js";
+import path from "path";
 const app = express();
 const PORT = process.env.PORT || 8000;
+const __dirname = path.resolve()
+
 // 1. database connectivity
 databaseConncetion()
   .then(() => {
@@ -26,7 +29,7 @@ databaseConncetion()
 app.use(cors());
 app.use(express.json({}));
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("public"));
+app.use(express.static(path.join(__dirname, "public")));
 
 // 3. router end points
 
