@@ -7,9 +7,11 @@ import userRouter from "./src/routes/userRoutes.js";
 import bookRouter from "./src/routes/bookRoute.js";
 import borrowRouter from "./src/routes/boorowRoute.js";
 import path from "path";
+import cloudnaryConfig from "./src/config/cloudnaryConfig.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
-const __dirname = path.resolve()
+const __dirname = path.resolve();
+cloudnaryConfig();
 
 // 1. database connectivity
 databaseConncetion()
