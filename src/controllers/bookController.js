@@ -8,44 +8,34 @@ import {
   updateBookData,
 } from "../models/Book/BookModel.js";
 import deleteFile, { deleteOneFile } from "../utils/deleteFile.js";
+import { uploadImage } from "../utils/imageUploaderCloudnary.js";
 
 // add new book
 export const createNewBook = async (req, res, next) => {
-  //   {
-  //   title: 'SDFH',
-  //   author: 'DHDDHHH',
-  //   isbn: '1234567890',
-  //   genre: 'ZXCFGHJ',
-  //   status: 'inActive',
-  //   publishedDate: '202202202',
-  //   smallDescription: 'asdfghjkjhgfdsa',
-  //   description: 'sdfghjkjhtretyuiytryuiuytreuiuytrtyuytredertyuiuytr',
-  //   stockQuantity: '10',
-  //   imageUrl: 'public\\img\\1752019094360-267123385-Screenshot 2024-06-06 160121.png',
-  //   slug: '/SDFH',
-  //   createdBy: {
-  //     name: 'Shekhau mehla',
-  //     adminId: new ObjectId('67dca167a2965a9197deafe4')
-  //   },
-  //   imageList: [
-  //     'public\\img\\1752019094360-267123385-Screenshot 2024-06-06 160121.png'
-  //   ]
-  // }
   try {
     // get book in req.body and files in req.files(setup multer first to get files smoothley)
 
     const imagePaht = req.files.map((file) => file.path);
-    for (const element of imagePaht) {
-      
-      
+
+    const imagePublicUrl = [];
+    for (const path of imagePaht) {
+      const result = await uploadImage(path);
+      imagePublicUrl.push(result);
     }
-    const newBook = await addNewBook(req.body);
-    if (newBook?._id) {
-      return responseClient({
-        req,
-        res,
-        message: "Book has added successfully",
-      });
+
+    if (imagePublicUrl.length > 0) {
+      req.body.imageUrl = imagePublicUrl[0];
+      req.body.imageList = imagePublicUrl;
+      console.log(req.body);
+      const newBook = await addNewBook(req.body);
+      deleteFile(req.files);
+      if (newBook?._id) {
+        return responseClient({
+          req,
+          res,
+          message: "Book has added successfully",
+        });
+      }
     }
   } catch (error) {
     deleteFile(req.files);
@@ -121,7 +111,17 @@ export const updateBook = async (req, res, next) => {
     console.log(req.files, "45 req.files");
     if (req.files.length && Array.isArray(req.files)) {
       const newImagesList = req.files?.map((file) => file.path);
-      req.body.imageList = [...req.body.imageList, ...newImagesList];
+      const imagePublicUrl = [];
+    for (const path of newImagesList) {
+      const result = await uploadImage(path);
+      imagePublicUrl.push(result);
+    }
+
+ if (imagePublicUrl.length > 0){
+  req.body.imageList = [...req.body.imageList, ...imagePublicUrl];
+  deleteFile(req.files)
+ }
+      
     }
     console.log(req.body.imageList, "49");
     if (req.body?.imageToDelete?.length) {
