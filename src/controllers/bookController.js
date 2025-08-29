@@ -107,21 +107,22 @@ export const getAllBook = async (req, res, next) => {
   }
 };
 export const updateBook = async (req, res, next) => {
+  console.log(req.body);
+
   try {
     console.log(req.files, "45 req.files");
     if (req.files.length && Array.isArray(req.files)) {
       const newImagesList = req.files?.map((file) => file.path);
       const imagePublicUrl = [];
-    for (const path of newImagesList) {
-      const result = await uploadImage(path);
-      imagePublicUrl.push(result);
-    }
+      for (const path of newImagesList) {
+        const result = await uploadImage(path);
+        imagePublicUrl.push(result);
+      }
 
- if (imagePublicUrl.length > 0){
-  req.body.imageList = [...req.body.imageList, ...imagePublicUrl];
-  deleteFile(req.files)
- }
-      
+      if (imagePublicUrl.length > 0) {
+        req.body.imageList = [...req.body.imageList, ...imagePublicUrl];
+        deleteFile(req.files);
+      }
     }
     console.log(req.body.imageList, "49");
     if (req.body?.imageToDelete?.length) {

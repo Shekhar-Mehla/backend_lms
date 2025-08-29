@@ -8,6 +8,7 @@ import bookRouter from "./src/routes/bookRoute.js";
 import borrowRouter from "./src/routes/boorowRoute.js";
 import path from "path";
 import cloudnaryConfig from "./src/config/cloudnaryConfig.js";
+import { reviewRouter } from "./src/routes/reviewRoutes.js";
 const app = express();
 const PORT = process.env.PORT || 8000;
 const __dirname = path.resolve();
@@ -42,6 +43,9 @@ app.use("/api/v1/user", userRouter);
 
 // book routes
 app.use("/api/v1/book", bookRouter);
+
+// review router
+app.use("/api/v1/review", reviewRouter);
 
 // borrow route
 app.use("/api/v1/borrow-book", borrowRouter);

@@ -27,7 +27,7 @@ Content-Type: application/json
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
-{"email":"puneethrajbajaj007@gmail.com","password":"Aa1234%"}
+{"email":"smehla147@gmail.com","password":"Aa1234%"}
 
 ### renew accesjwt
 GET {{baseUrl}}/auth/renew-accessJwt
@@ -40,7 +40,7 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsY
 ### fetch user profile
 GET  {{baseUrl}}/user/profile
 Content-Type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1bmVldGhyYWpiYWphajAwN0BnbWFpbC5jb20iLCJpYXQiOjE3NDEwNDM3MzIsImV4cCI6MTc0MTA0NDMzMn0.527LanSG95MIB1oD9wiqJcHCsmF4-xXMaPpvm1qg9zk
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTY0MjYxOTUsImV4cCI6MTc1NjUxMjU5NX0.U9YysrMBSJHFWtzhYJp5lVdFOytEIgS5Uan4v173YqE
 
 {"hell":"wjjw"}
     
@@ -74,4 +74,13 @@ Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InB1bmVld
     }
 
 
- 
+#  reviewRouter
+###
+POST {{baseUrl}}/review/createReview
+Content-Type: application/json
+
+{"bookId":"64aef5f56e3de111b78c5116",
+"userId":"67dca167a2965a9197deafe4",
+"rating": 4,
+"title": "Great read!",
+"comment": "This book was engaging from start to finish. Highly recommended."}

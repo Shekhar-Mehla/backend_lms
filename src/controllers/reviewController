@@ -1,0 +1,32 @@
+import { addNewReview } from "../models/Review/ReviewModel.js";
+
+import responseClient from "../middleware/responseClient.js";
+// Add a new review
+export const addReview = async (req, res, next) => {
+  try {
+    const { bookId, rating, comment, userId } = req.body;
+    console.log(req.body);
+
+    // Basic validation
+    // if (!bookId || !userId || !rating) {
+    //   return responseClient(
+    //     res,
+    //     400,
+    //     "courseId, userId, and rating are required."
+    //   );
+    // }
+
+    // Use ReviewModel.addNewReview if it handles saving internally
+    const review = await addNewReview(req.body);
+    console.log(review);
+
+    return responseClient({
+      res,
+      req,
+      statusCode: 201,
+      messsage: "Review added successfully.",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
