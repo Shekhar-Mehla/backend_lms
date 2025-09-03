@@ -39,7 +39,8 @@ export const createNewBorrowController = async (req, res, next) => {
         return responseClient({
           req,
           res,
-          message: "updated stock succefully",
+          message: `you have succesfully borrowed this book  and you must return this book by ${borrow.dueDate} `,
+          payload: borrow,
         });
       }
     }

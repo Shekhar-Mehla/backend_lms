@@ -84,3 +84,21 @@ Content-Type: application/json
 "rating": 4,
 "title": "Great read!",
 "comment": "This book was engaging from start to finish. Highly recommended."}
+
+
+
+
+# boorwo book 
+###
+POST {{baseUrl}}/borrow-book/add-borrow
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTY4NjExMjQsImV4cCI6MTc1Njk0NzUyNH0.AzrDllElkYANFkt3o6HEFxCOiF6jvlyQMflYWfoPGPI
+Content-Type: application/json
+
+{
+  "title": "The Great Adventure",
+  "quantity": 1,
+  "dueDate": "2025-07-01T23:02:24.147Z",
+  "userId": "67dca167a2965a9197deafe4",
+  "bookId": "67f8703ee493778b292868e7",
+  "thumbnail": "public/img/1744335152371-359625310-the greate adv.jpg"
+}

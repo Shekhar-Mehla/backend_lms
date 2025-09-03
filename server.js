@@ -48,7 +48,7 @@ app.use("/api/v1/book", bookRouter);
 app.use("/api/v1/review", reviewRouter);
 
 // borrow route
-app.use("/api/v1/borrow-book", borrowRouter);
+app.use("/borrow-book", borrowRouter);
 
 // error handler will come here
 app.use(errorMiddleware);

@@ -6,9 +6,9 @@ export const UserAuthMiddleware = async (req, res, next) => {
   try {
     const { authorization } = req.headers;
     let message = "Unathorized";
-    if (authorization) {
-      const token = authorization.split(" ")[1];
 
+    const token = authorization.split(" ")[1];
+    if (authorization && token != "undefined") {
       // workflow
 
       // 1. check if token is valid on not
@@ -43,7 +43,7 @@ export const UserAuthMiddleware = async (req, res, next) => {
     responseClient({
       req,
       res,
-      message: "invalid authrization header",
+      message: "invalid authrization header or no token ",
       statusCode: 401,
     });
   } catch (error) {
