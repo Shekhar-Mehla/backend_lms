@@ -17,7 +17,7 @@ borrowRouter.post(
   "/add-borrow",
   borrowDataValidation,
   UserAuthMiddleware,
-  AdminAuthMidlleware,
+
   createNewBorrowController
 );
 

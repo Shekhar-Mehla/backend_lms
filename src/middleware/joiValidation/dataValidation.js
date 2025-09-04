@@ -84,9 +84,9 @@ export const NewBookDataValidation = (req, res, next) => {
 };
 export const updateBookValidation = (req, res, next) => {
   const { imageList } = req.body;
-  req.body.imageList = imageList.split(",");
+  req.body.imageList = imageList?.split(",");
   if (req.body?.imageToDelete) {
-    req.body.imageToDelete = req.body.imageToDelete.split(",");
+    req.body.imageToDelete = req.body?.imageToDelete?.split(",");
   }
 
   const obj = {
@@ -118,6 +118,7 @@ export const deleteBookDataValidation = (req, res, next) => {
   return dataValidation({ req, res, obj, next });
 };
 export const borrowDataValidation = (req, res, next) => {
+  console.log("hello borrow validation 121");
   const obj = {
     title: LARGESTRING,
 
@@ -133,7 +134,7 @@ const dataValidation = ({ req, res, obj, next }) => {
   const schema = Array.isArray(req.body)
     ? Joi.array().items(obj)
     : Joi.object(obj);
-  
+
   const { error, value } = schema.validate(req.body);
 
   if (error) {

@@ -3,7 +3,6 @@ import { varifyJWT } from "../utils/jwt.js";
 import { deleteAllSessions } from "../models/Session/SessionModel.js";
 import { getUserByEmail, updateUser } from "../models/User/UserModel.js";
 export const getUserProfile = async (req, res, next) => {
-  req.userInfo.role = undefined;
   return responseClient({
     req,
     res,
