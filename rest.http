@@ -93,13 +93,20 @@ Content-Type: application/json
 
 ###
 POST {{baseUrl}}/borrow-book/add-borrow
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTY4NjExMjQsImV4cCI6MTc1Njk0NzUyNH0.AzrDllElkYANFkt3o6HEFxCOiF6jvlyQMflYWfoPGPI
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTcwMjU5MDYsImV4cCI6MTc1NzExMjMwNn0.C4G3vB0gnKWGXu9kdp2zkX2t0WcHbsbMQfd5HIk_jfU
 Content-Type: application/json
 
-[{"title": "The Great Adventure",
+{"title": "The Great Adventure",
  
   
  
   "bookId": "67f8703ee493778b292868e7",
   "thumbnail": "public/img/1744335152371-359625310-the greate adv.jpg"
-}]
+}
+
+
+###
+GET {{baseUrl}}/borrow-book/68b90781f2b13f930f46e598
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTcwMjU5MDYsImV4cCI6MTc1NzExMjMwNn0.C4G3vB0gnKWGXu9kdp2zkX2t0WcHbsbMQfd5HIk_jfU
+Content-Type: application/json
+

@@ -129,16 +129,32 @@ export const borrowDataValidation = (req, res, next) => {
 
   return dataValidation({ req, res, obj, next });
 };
+// validations/borrowHistoryValidation.js
 
-const dataValidation = ({ req, res, obj, next }) => {
-  const schema = Array.isArray(req.body)
+export const borrowHistoryValidation = (req, res, next) => {
+  console.log("Validating borrow history request...");
+  console.log(req.params);
+
+  const obj = {
+    userId: ID_REQ, // Validate MongoDB ObjectId
+  };
+
+  return dataValidation({ req, res, obj, next });
+};
+
+export const dataValidation = ({ req, res, obj, next }) => {
+  // Determine target to validate: prefer req.body, fallback to req.params
+  const target = Object.keys(req.body || {}).length ? req.body : req.params;
+
+  // Determine schema: array for POST body, object for params or single object body
+  const schema = Array.isArray(target)
     ? Joi.array().items(obj)
     : Joi.object(obj);
 
-  const { error, value } = schema.validate(req.body);
+  const { error, value } = schema.validate(target);
 
   if (error) {
-    // IF you get error here make sure u delete the image which you just uploaded in the file
+    // If you just uploaded files, delete them
     if (req.files) {
       deleteFile(req.files);
     }
@@ -150,5 +166,7 @@ const dataValidation = ({ req, res, obj, next }) => {
       message: error.message,
     });
   }
+
+  // validation passed
   return next();
 };

@@ -14,7 +14,11 @@ const borrowSchema = new mongoose.Schema(
     dueDate: {
       type: Date,
       required: true,
-      default: null,
+      default: () => {
+    const d = new Date();
+    d.setDate(d.getDate() + 15);
+    return d;
+  },
       // The date by which the book must be returned
     },
     returnDate: {
