@@ -18,3 +18,6 @@ export const updateUser = async (filter, update) => {
 export const getUserbyjwtandemail = async (filter) => {
   return UserCollection.findOne(filter);
 };
+export const getAllUsers = async (adminId) => {
+  return UserCollection.find({ _id: { $ne: adminId } });
+};

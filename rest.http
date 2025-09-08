@@ -110,3 +110,8 @@ GET {{baseUrl}}/borrow-book/68b90781f2b13f930f46e598
 Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTcwMjU5MDYsImV4cCI6MTc1NzExMjMwNn0.C4G3vB0gnKWGXu9kdp2zkX2t0WcHbsbMQfd5HIk_jfU
 Content-Type: application/json
 
+
+# GET ALL USERS
+###
+GET  {{baseUrl}}/user/all-users
+Authorization:bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNtZWhsYTE0N0BnbWFpbC5jb20iLCJpYXQiOjE3NTcyOTg5NTgsImV4cCI6MTc1NzM4NTM1OH0.bScWgaAxlpNlAQpvr03yMAsqW1WL7afTMUV0QNoVinw

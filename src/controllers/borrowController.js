@@ -100,6 +100,19 @@ export const createNewBorrowController = async (req, res, next) => {
 
 export const getBorrowHistoryController = async (req, res, next) => {
   try {
+    /* Extract userId from request params.
+
+Fetch borrow history using model helper.
+
+Handle empty records gracefully (return empty array).
+
+Check overdue status for each record and update DB if needed.
+
+Format data for frontend (book name, borrowed date, due date, status).
+
+Wait for all async operations to complete.
+
+Send structured response to client using responseClient.*/
     const { userId } = req.params;
 
     // Fetch borrow history
