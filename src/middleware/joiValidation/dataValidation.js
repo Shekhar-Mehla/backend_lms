@@ -145,13 +145,16 @@ export const borrowHistoryValidation = (req, res, next) => {
 export const dataValidation = ({ req, res, obj, next }) => {
   // Determine target to validate: prefer req.body, fallback to req.params
   const target = Object.keys(req.body || {}).length ? req.body : req.params;
-
+  
+  
   // Determine schema: array for POST body, object for params or single object body
   const schema = Array.isArray(target)
     ? Joi.array().items(obj)
     : Joi.object(obj);
 
   const { error, value } = schema.validate(target);
+  console.log(error, "eeror");
+  console.log(value, "value");
 
   if (error) {
     // If you just uploaded files, delete them

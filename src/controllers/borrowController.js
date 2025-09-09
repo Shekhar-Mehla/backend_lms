@@ -114,6 +114,7 @@ Wait for all async operations to complete.
 
 Send structured response to client using responseClient.*/
     const { userId } = req.params;
+    console.log(req.params, "papra");
 
     // Fetch borrow history
     const history = await getBorrowHistoryWithUserId(userId);
